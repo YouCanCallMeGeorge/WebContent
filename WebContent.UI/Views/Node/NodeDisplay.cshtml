@@ -1,0 +1,38 @@
+﻿@using WebContent.Manage.HelperClasses;
+@using WebContent.UI.Models.Node;
+@model NodeDisplayViewModel
+
+<div class="row">
+    <div class="row">
+        <div class="col-md-12">
+            <span>@ViewBag.Title</span>
+            <span><a class="btn btn-default" href="/Node/BlogEntryCreate">New Blog Entry</a></span>
+            <form class="form-horizontal" action="/Node/EditBegin" method="post">
+                @Html.Hidden("Id", Model.Id)
+                <button type="submit" class="btn btn-outline-primary" name="EditButton">Edit</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @foreach (ContentLinkInfo linkInfo in Model.PathLinks)
+            {
+                <span><a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a></span>
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            @foreach (ContentLinkInfo linkInfo in Model.ChildLinks)
+            {
+                <div class="row">
+                    <a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a>
+                </div>
+            }
+        </div>
+        <div class="col-md-8">
+            <p>@Model.Title</p>
+            <p>@Model.Content</p>
+        </div>
+    </div>
+</div>

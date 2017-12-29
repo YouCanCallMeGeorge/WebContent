@@ -1,0 +1,40 @@
+﻿@using WebContent.UI.Models.Node;
+@model NodeEditViewModel
+
+<div class="row">
+    <h2>@ViewBag.Title</h2>
+</div>
+<form class="form-horizontal" action="/Node/EditEnd" method="post">
+    @Html.HiddenFor(model => Model.Create)
+    @Html.HiddenFor(model => Model.Id)
+    @Html.HiddenFor(model => Model.Path)
+    <div class="form-group">
+        <div class="col-md-offset-4 col-md-8">
+            <div class="row">
+                <button type="submit" class="btn btn-outline-primary" name="button" value="save">Save</button>
+                <button type="submit" class="btn btn-outline-primary" name="button" value="cancel">Cancel</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="Title">Title:</label>
+        <div class="col-md-8">
+            @Html.TextBoxFor(model => model.Title, new { Class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="Summary">Summary:</label>
+        <div class="col-md-8">
+            @Html.TextAreaFor(model => model.Summary, new { Class = "form-control", rows = "4" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4" for="content">Content:</label>
+        <div class="col-md-8">
+            @Html.TextAreaFor(model => model.Content, new { Class = "form-control", rows = "20" })
+        </div>
+    </div>
+</form>
+}
+
+

@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebContent", "WebContent\WebContent.csproj", "{95BC2177-EB38-4A1C-83A3-57A9EE8C4C9B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebContent.UI", "WebContent.UI\WebContent.UI.csproj", "{95BC2177-EB38-4A1C-83A3-57A9EE8C4C9B}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FEC78E3F-00C5-4B78-BA94-FDE35276FF67} = {FEC78E3F-00C5-4B78-BA94-FDE35276FF67}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebContent.Manage", "WebContent.Manage\WebContent.Manage.csproj", "{FEC78E3F-00C5-4B78-BA94-FDE35276FF67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{95BC2177-EB38-4A1C-83A3-57A9EE8C4C9B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95BC2177-EB38-4A1C-83A3-57A9EE8C4C9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95BC2177-EB38-4A1C-83A3-57A9EE8C4C9B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC78E3F-00C5-4B78-BA94-FDE35276FF67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC78E3F-00C5-4B78-BA94-FDE35276FF67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC78E3F-00C5-4B78-BA94-FDE35276FF67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC78E3F-00C5-4B78-BA94-FDE35276FF67}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace WebContent
+namespace WebContent.UI
 {
     public class RouteConfig
     {
@@ -14,9 +14,9 @@ namespace WebContent
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                name: "default",
+                url: "{controller}/{action}/{*nodePath}",
+                defaults: new { controller = "Home", action = "Index" }
             );
         }
     }

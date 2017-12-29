@@ -1,0 +1,22 @@
+"D:\Program Files\Microsoft SQL Server\130\Tools\Binn\SqlLocalDB.exe"
+"C:\Program Files\Microsoft SQL Server\130\Tools\Binn"
+
+Must get connection to server after each boot of PC.
+CMD window.
+D:
+CD "D:\Program Files\Microsoft SQL Server\130\Tools\Binn"
+SqlLocalDB.exe start MSSqlLocalDB
+SqlLocalDB.exe info  MSSqlLocalDB
+Copy server name (starts with np; named pipe).
+
+At startup of SQL Server Mgt Studio:
+Server Name: np:\\.\pipe\LOCALDB#C1161790\tsql\query
+np:\\.\pipe\LOCALDB#74DACC85\tsql\query
+
+
+Created login.
+Login: WebDev
+Password: HappyCoding
+
+Server:
+(localdb)\MSSqlLocalDB
