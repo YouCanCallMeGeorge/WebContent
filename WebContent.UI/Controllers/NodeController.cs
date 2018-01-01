@@ -56,11 +56,11 @@ namespace WebContent.UI.Controllers
         {
             NodeEditViewModel model = new NodeEditViewModel
             {
-                Content = "<content>",
+                Content = "[content]",
                 Create = true,
                 Id = 0,
-                Path = "Blog/" + BlogEntry.PathMake(),
-                Summary = "<summary>",
+                Path = BlogEntry.PathMake(),
+                Summary = "[summary]",
                 Title = "Blog Entry " + DateTime.Now.ToString("yyyy/MM/dd"),
                 Type = "Blog"
             };

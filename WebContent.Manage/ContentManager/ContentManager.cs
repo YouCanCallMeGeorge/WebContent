@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,6 +8,9 @@ using System.Threading.Tasks;
 using WebContent.Manage.ContentClasses;
 using WebContent.Manage.HelperClasses;
 using WebContent.Manage.Interfaces;
+
+// Temp
+using WebContent.Manage.Repository;
 
 namespace WebContent.Manage.ContentManager
 {
@@ -46,10 +50,17 @@ namespace WebContent.Manage.ContentManager
         {
             try
             {
+                ContentRepositoryLinqToEF rl = new ContentRepositoryLinqToEF();
+
+                rl.NodeTypeMostRecentNLeavesGet("Blog", 5);
+
+
                 return new BlogEntry(repository.NodeTypeMostRecentLeafGet("Blog"));
             }
-            catch
+            catch (Exception ex)
             {
+                string exm = ex.Message;
+                Debug.Print(ex.Message);
                 return null;
             }
         }
@@ -238,8 +249,9 @@ namespace WebContent.Manage.ContentManager
                     nodeCurrent = new ContentTransfer
                     {
                         Path = pathCurrent,
-                        Content = "",
-                        Summary = "",
+                        DateCreated = DateTime.Now,
+                        Content = ".",
+                        Summary = ".",
                         Title = segmentCurrent,
                         ParentId = parentId
                     };
@@ -254,6 +266,7 @@ namespace WebContent.Manage.ContentManager
 
 
             // Create the new node and return it, fully populated.
+            nodeNew.DateCreated = DateTime.Now;
             nodeNew.ParentId = parentId;
             return repository.NodeCreate(nodeNew);
         }

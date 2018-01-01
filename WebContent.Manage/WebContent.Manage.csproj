@@ -57,14 +57,17 @@
     <Compile Include="HelperClasses\ContentTransfer.cs" />
     <Compile Include="Interfaces\IContentManager.cs" />
     <Compile Include="Interfaces\IContentRepository.cs" />
+    <Compile Include="Repository\Context\WebContentContext.cs" />
+    <Compile Include="Repository\Context\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ContentManager\ContentManager.cs" />
+    <Compile Include="Repository\ContentRepositoryLinqToEF.cs" />
     <Compile Include="Repository\ContentRepositorySql.cs" />
-    <Compile Include="Repository\Context\ContentContext.cs" />
-    <Compile Include="Repository\Context\Node.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

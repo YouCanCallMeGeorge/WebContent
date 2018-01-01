@@ -17,8 +17,8 @@ namespace WebContent.Manage.Interfaces
 
         //--------------------------------
         // NodeCreate:
-        //  nodeNew: Prior to calling this method, populate Content, Path, Summary, Title.
-        //  Classes implementing this interface must set DateCreated, NodeId, ParentId.
+        //  nodeNew: Prior to calling this method, populate Content, DateCreated, Path, Summary, Title.
+        //  Classes implementing this interface must set NodeId and ParentId.
         //  NodeId and ParentId must be unique in the data store.
         //--------------------------------
         ContentTransfer NodeCreate(ContentTransfer nodeNew);

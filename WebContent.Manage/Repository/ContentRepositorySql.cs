@@ -30,7 +30,6 @@ namespace WebContent.Manage.Repository
         public List<ContentTransfer> NodeChildrenGet(int id)
         {
             List<ContentTransfer> children = new List<ContentTransfer>();
-            ContentTransfer node = null;
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -47,8 +46,7 @@ namespace WebContent.Manage.Repository
                     {
                         while (reader.Read())
                         {
-                            node = NodeRecordUnpack(reader);
-                            children.Add(node);
+                            children.Add(NodeRecordUnpack(reader));
                         }
                     }
                 }
@@ -79,14 +77,14 @@ namespace WebContent.Manage.Repository
                     cmd.Parameters.Add("@pSummary", SqlDbType.VarChar).Value = nodeNew.Summary;
                     cmd.Parameters.Add("@pTitle", SqlDbType.VarChar).Value = nodeNew.Title;
                     cmd.Parameters.Add("@pContent", SqlDbType.VarChar).Value = nodeNew.Content;
-                    cmd.Parameters.Add("@pDateCreated", SqlDbType.DateTime).Value = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                    cmd.Parameters.Add("@pDateCreated", SqlDbType.DateTime).Value = nodeNew.DateCreated.ToString("yyyy-MM-dd HH:mm:ss");
                     cmd.Parameters.Add("@pParentId", SqlDbType.Int).Value = nodeNew.ParentId;
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();
-
-                return NodeGetByPath(nodeNew.Path);
             }
+
+            return NodeGetByPath(nodeNew.Path);
         }
 
 
@@ -133,7 +131,7 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         public ContentTransfer NodeGetById(int id)
         {
-            ContentTransfer node = null;
+            ContentTransfer nodeXfer = null;
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -150,14 +148,14 @@ namespace WebContent.Manage.Repository
                     {
                         if (reader.Read())
                         {
-                            node = NodeRecordUnpack(reader);
+                            nodeXfer = NodeRecordUnpack(reader);
                         }
                     }
                 }
                 conn.Close();
             }
 
-            return node;
+            return nodeXfer;
         }
 
 
@@ -166,7 +164,7 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         public ContentTransfer NodeGetByPath(string path)
         {
-            ContentTransfer node = null;
+            ContentTransfer nodeXfer = null;
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -183,14 +181,14 @@ namespace WebContent.Manage.Repository
                     {
                         if (reader.Read())
                         {
-                            node = NodeRecordUnpack(reader);
+                            nodeXfer = NodeRecordUnpack(reader);
                         }
                     }
                 }
                 conn.Close();
             }
 
-            return node;
+            return nodeXfer;
         }
 
 
@@ -199,16 +197,18 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         private ContentTransfer NodeRecordUnpack(SqlDataReader reader)
         {
-            ContentTransfer node = new ContentTransfer();
+            ContentTransfer nodeXfer = new ContentTransfer()
+            {
+                NodeId = reader.GetInt32(COL_ID),
+                Path = reader.GetString(COL_PATH),
+                Summary = reader.GetString(COL_SUMMARY),
+                Title = reader.GetString(COL_TITLE),
+                Content = reader.GetString(COL_CONTENT),
+                DateCreated = reader.GetDateTime(COL_DATE_CREATED),
+                ParentId = reader.GetInt32(COL_PARENT_ID)
+            };
 
-            node.NodeId = reader.GetInt32(COL_ID);
-            node.Path = reader.GetString(COL_PATH);
-            node.Summary = reader.GetString(COL_SUMMARY);
-            node.Title = reader.GetString(COL_TITLE);
-            node.Content = reader.GetString(COL_CONTENT);
-            node.DateCreated = reader.GetDateTime(COL_DATE_CREATED);
-            node.ParentId = reader.GetInt32(COL_PARENT_ID);
-            return node;
+            return nodeXfer;
         }
 
 
@@ -217,7 +217,7 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         public ContentTransfer NodeTypeMostRecentLeafGet(string nodeType)
         {
-            ContentTransfer node = null;
+            ContentTransfer nodeXfer = null;
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -225,11 +225,11 @@ namespace WebContent.Manage.Repository
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    // Find the n1.Ids that have no children.
-                    string sqln2 = "((SELECT COUNT(*) FROM Node n2 WHERE n1.Id = n2.ParentId) = 0)";
+                    // Inner query: Select the children of the node in the outer query.
+                    string sqln2 = "(SELECT * FROM Node n2 WHERE n1.Id = n2.ParentId)";
 
-                    // Find the most recent Id of the type that has no children.
-                    string sqln1 = "SELECT MAX(n1.Id) FROM Node n1 WHERE ( (n1.Path LIKE '" + nodeType + "%') AND " + sqln2 + ")";
+                    // Find the most recent record which is of the type and has no children.
+                    string sqln1 = "SELECT MAX(n1.Id) FROM Node n1 WHERE ( (n1.Path LIKE '" + nodeType + "%') AND NOT EXISTS " + sqln2 + ")";
 
                     cmd.Connection = conn;
                     cmd.CommandType = CommandType.Text;
@@ -237,12 +237,12 @@ namespace WebContent.Manage.Repository
 
                     Object result = cmd.ExecuteScalar();
                     if (result != System.DBNull.Value)
-                        node = NodeGetById(Convert.ToInt32(result));
+                        nodeXfer = NodeGetById(Convert.ToInt32(result));
                 }
                 conn.Close();
             }
 
-            return node;
+            return nodeXfer;
         }
 
 
@@ -254,7 +254,6 @@ namespace WebContent.Manage.Repository
         public List<ContentTransfer> NodeTypeMostRecentNLeavesGet(string nodeType, int num)
         {
             List<ContentTransfer> nodeList = new List<ContentTransfer>();
-            ContentTransfer node = null;
 
             using (SqlConnection conn = new SqlConnection())
             {
@@ -279,8 +278,7 @@ namespace WebContent.Manage.Repository
                     {
                         while (reader.Read())
                         {
-                            node = NodeRecordUnpack(reader);
-                            nodeList.Add(node);
+                            nodeList.Add(NodeRecordUnpack(reader));
                         }
                     }
                 }
@@ -294,7 +292,7 @@ namespace WebContent.Manage.Repository
 
         //--------------------------------------
         //--------------------------------------
-        public void NodeUpdate(ContentTransfer node)
+        public void NodeUpdate(ContentTransfer nodeXfer)
         {
             using (SqlConnection conn = new SqlConnection())
             {
@@ -306,10 +304,10 @@ namespace WebContent.Manage.Repository
                     cmd.Connection = conn;
                     cmd.CommandType = CommandType.Text;
                     cmd.CommandText = sql;
-                    cmd.Parameters.Add("@pContent", SqlDbType.VarChar).Value = node.Content;
-                    cmd.Parameters.Add("@pSummary", SqlDbType.VarChar).Value = node.Summary;
-                    cmd.Parameters.Add("@pTitle", SqlDbType.VarChar).Value = node.Title;
-                    cmd.Parameters.Add("@pId", SqlDbType.Int).Value = node.NodeId;
+                    cmd.Parameters.Add("@pContent", SqlDbType.VarChar).Value = nodeXfer.Content;
+                    cmd.Parameters.Add("@pSummary", SqlDbType.VarChar).Value = nodeXfer.Summary;
+                    cmd.Parameters.Add("@pTitle", SqlDbType.VarChar).Value = nodeXfer.Title;
+                    cmd.Parameters.Add("@pId", SqlDbType.Int).Value = nodeXfer.NodeId;
                     cmd.ExecuteNonQuery();
                 }
                 conn.Close();

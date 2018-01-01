@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 
 namespace WebContent.UI.Models.Node
 {
     public class NodeEditViewModel
     {
+        [AllowHtml]
         public string Content { get; set; }
         public bool Create { get; set; }
         public int Id { get; set; }

@@ -46,7 +46,8 @@ namespace WebContent.UI
 
             // Interface to Class mappings.
             container.RegisterType<IContentManager, ContentManager>();
-            container.RegisterType<IContentRepository, ContentRepositorySql>();
+           // container.RegisterType<IContentRepository, ContentRepositorySql>();
+            container.RegisterType<IContentRepository, ContentRepositoryLinqToEF>();
         }
     }
 }

@@ -5,13 +5,13 @@ namespace WebContent.Manage.Repository.Context
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class ContentContext : DbContext
+    public partial class WebContentContext : DbContext
     {
-        public ContentContext()
-            : base("name=ContentContext")
+        public WebContentContext()
+            : base("name=WebContentContext")
         {
         }
-
+        
         public virtual DbSet<Node> Nodes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
