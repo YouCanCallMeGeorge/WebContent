@@ -18,6 +18,7 @@ namespace WebContent.Manage.HelperClasses
     //   On update to repository:
     //     An instance of this class is produced by the ContentNode object and passed to the repository.
     //----------------------------
+    [Serializable()]
     public class ContentTransfer
     {
         public string Content { get; set; }

@@ -5,6 +5,7 @@ namespace WebContent.Manage.Repository.Context
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
+       
     public partial class WebContentContext : DbContext
     {
         public WebContentContext()

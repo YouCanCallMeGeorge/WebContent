@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<ArrayOfContentTransfer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContentTransfer>
+    <Content>Blog entry for 2017/12/27</Content>
+    <DateCreated>2017-12-27T18:05:50</DateCreated>
+    <NodeId>3</NodeId>
+    <ParentId>7</ParentId>
+    <Path>Blog/2017/December/26</Path>
+    <Summary>Blog entry for 2017/12/27</Summary>
+    <Title>Blog entry for 2017/12/27</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>This is the first blog entry after the restart of the project. One entry had been made a few days ago; it was lost when the database was discarded. </Content>
+    <DateCreated>2017-12-28T08:03:35</DateCreated>
+    <NodeId>4</NodeId>
+    <ParentId>7</ParentId>
+    <Path>Blog/2017/December/27</Path>
+    <Summary>First blog entry--after the restart</Summary>
+    <Title>First Blog Entry </Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>Blog</Content>
+    <DateCreated>2017-12-28T08:29:22</DateCreated>
+    <NodeId>5</NodeId>
+    <ParentId>0</ParentId>
+    <Path>Blog</Path>
+    <Summary>Blog</Summary>
+    <Title>Blog</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>2017</Content>
+    <DateCreated>2017-12-28T08:29:22</DateCreated>
+    <NodeId>6</NodeId>
+    <ParentId>5</ParentId>
+    <Path>Blog/2017</Path>
+    <Summary>2017</Summary>
+    <Title>2017</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>December</Content>
+    <DateCreated>2017-12-28T08:29:22</DateCreated>
+    <NodeId>7</NodeId>
+    <ParentId>6</ParentId>
+    <Path>Blog/2017/December</Path>
+    <Summary>December</Summary>
+    <Title>December</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>Today I implemented the Unity dependency injection package. The ContentRepository and ContentManager classes are now delivered to the classes that depend on them. Injection is via the object constructor.</Content>
+    <DateCreated>2017-12-28T08:29:22</DateCreated>
+    <NodeId>8</NodeId>
+    <ParentId>7</ParentId>
+    <Path>Blog/2017/December/28</Path>
+    <Summary>Implemented the Unity dependency injection package.</Summary>
+    <Title>Implemented Dependency Injection</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>It is now possible to edit an existing content node, of any type. </Content>
+    <DateCreated>2017-12-29T08:31:53</DateCreated>
+    <NodeId>11</NodeId>
+    <ParentId>7</ParentId>
+    <Path>Blog/2017/December/29</Path>
+    <Summary>It is now possible to edit an existing content node.</Summary>
+    <Title>Content Update Operational</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>.</Content>
+    <DateCreated>2018-01-01T11:32:48.33</DateCreated>
+    <NodeId>14</NodeId>
+    <ParentId>5</ParentId>
+    <Path>Blog/2018</Path>
+    <Summary>.</Summary>
+    <Title>2018</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>.</Content>
+    <DateCreated>2018-01-01T11:32:48.473</DateCreated>
+    <NodeId>15</NodeId>
+    <ParentId>14</ParentId>
+    <Path>Blog/2018/January</Path>
+    <Summary>.</Summary>
+    <Title>January</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>Access to the SQL Server database is now via LINQ to Entities. The LINQ method syntax is readable and compact, mostly. The one exception so far has been the left outer join, which I found to be inscrutable. Seems most programmers feel the same way, based on the comments on Stack Overflow.
+
+I was able to get the job done using query syntax, with help from the Microsoft Docs, Stack Overflow.
+
+Access to the SQL Server database is now via LINQ to Entities. The LINQ method syntax is readable and compact, mostly. The one exception so far has been the left outer join, which I found to be inscrutable. Seems most programmers feel the same way, based on the comments on Stack Overflow.
+
+I was able to get the job done using query syntax, with help from the Microsoft Docs, Stack Overflow.
+
+However, the [AllowHtml] attribute on the Content field is *not* working.</Content>
+    <DateCreated>2018-01-01T11:38:51.447</DateCreated>
+    <NodeId>17</NodeId>
+    <ParentId>15</ParentId>
+    <Path>Blog/2018/January/01</Path>
+    <Summary>Access to the SQL Server database is now via LINQ to Entities</Summary>
+    <Title>Now Using LINQ and Entity Framework</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>Yesterday I saw that HTML tags in blog content were not honored. The tags themselves were displayed, instead of the effect of the tags.
+
+On the ASP.Net forum, MVC section, I found the solution: Use Html.Raw.
+
+The following &amp;lt;em&amp;gt;simple&amp;lt;/em&amp;gt; adjustment works &amp;lt;strong&amp;gt;very&amp;lt;/strong&amp;gt; well:
+
+@Model.Title
+
+becomes
+            
+@Html.Raw(Model.Content)
+
+In that same post I saw the solution to the problem of no paragraph separation (which  I did not mention yesterday): Replace ASCII newline and carriage return characters with the br tag.
+</Content>
+    <DateCreated>2018-01-02T17:46:11.433</DateCreated>
+    <NodeId>18</NodeId>
+    <ParentId>15</ParentId>
+    <Path>Blog/2018/January/02</Path>
+    <Summary>HTML markup in blog content is honored, using @Html.Raw.</Summary>
+    <Title>HTML Markup In Blog Content Is Honored</Title>
+  </ContentTransfer>
+  <ContentTransfer>
+    <Content>This evening I cleaned up error handling throughout the solution.
+
+Handling exceptions:
+Exceptions are ultimately handled in the Home and Node controllers, in the overridden &amp;lt;strong&amp;gt;OnException&amp;lt;/strong&amp;gt; method.
+In the Error view, I added a link to an absolute URL to the node&amp;#39;s Index action.
+
+Handling content not found:
+All methods in the &amp;lt;strong&amp;gt;IContentManager&amp;lt;/strong&amp;gt; interface now return &amp;lt;strong&amp;gt;null&amp;lt;/strong&amp;gt; when the requested content is not found. In these cases, the normal view is presented, with a message the the content was not found.</Content>
+    <DateCreated>2018-01-03T20:23:26.867</DateCreated>
+    <NodeId>19</NodeId>
+    <ParentId>15</ParentId>
+    <Path>Blog/2018/January/03</Path>
+    <Summary>Cleaned up error handling in response to exceptions and content not found.</Summary>
+    <Title>Cleaned Up Error Handling</Title>
+  </ContentTransfer>
+</ArrayOfContentTransfer>

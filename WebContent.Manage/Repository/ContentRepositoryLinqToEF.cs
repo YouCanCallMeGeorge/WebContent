@@ -12,7 +12,7 @@ using WebContent.Manage.Repository.Context;
 
 namespace WebContent.Manage.Repository
 {
-  public  class ContentRepositoryLinqToEF : IContentRepository
+    public class ContentRepositoryLinqToEF : IContentRepository
     {
 
         //--------------------------------------
@@ -87,14 +87,7 @@ namespace WebContent.Manage.Repository
             using (WebContentContext db = new WebContentContext())
             {
                 db.Nodes.Add(nodeDb);
-                try
-                {
-                    db.SaveChanges();
-                }
-                catch (Exception ex)
-                {
-                    Debug.Print("NodeCreate: " + ex.Message);
-                }
+                db.SaveChanges();
             }
 
             return NodeGetByPath(nodeNew.Path);
@@ -142,10 +135,9 @@ namespace WebContent.Manage.Repository
                 {
                     nodeDb = db.Nodes.Where(n => n.Id == id).Single();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Exception is thrown if the node does not exist.
-                    nodeDb = null;
+                    Debug.Print(ex.Message);
                 }
 
                 if (nodeDb != null)
@@ -171,10 +163,9 @@ namespace WebContent.Manage.Repository
                 {
                     nodeDb = db.Nodes.Where(n => n.Path == path).Single();
                 }
-                catch
+                catch (Exception ex)
                 {
-                    // Exception is thrown if the node does not exist.
-                    nodeDb = null;
+                    Debug.Print(ex.Message);
                 }
 
                 if (nodeDb != null)
@@ -190,7 +181,7 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         public ContentTransfer NodeTypeMostRecentLeafGet(string nodeType)
         {
-           return NodeTypeMostRecentNLeavesGet(nodeType, 1)[0];
+            return NodeTypeMostRecentNLeavesGet(nodeType, 1)[0];
         }
 
 
@@ -235,10 +226,10 @@ namespace WebContent.Manage.Repository
                 {
                     nodeDb = db.Nodes.Where(n => n.Id == nodeXfer.NodeId).Single();
                 }
-                catch
+                catch (Exception ex)
                 {
                     // Exception is thrown if the node does not exist.
-                    nodeDb = null;
+                    Debug.Print(ex.Message);
                 }
 
                 if (nodeDb != null)

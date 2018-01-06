@@ -27,7 +27,7 @@ namespace WebContent.Manage.ContentClasses
         //
         // This class, ContentNode, is the base content class.
         //
-        // For each type, there exists a subclass of ContentNode to manage the type.
+        // For each type, there exists a subclass to manage the type.
         //    Example: The type manager class for Blog type is BlogEntry.
         //
         //  A ContentNode is always created (added to the repository) through a type manager class.
@@ -39,35 +39,32 @@ namespace WebContent.Manage.ContentClasses
         //      Permissible characters are a-z, A-Z, '/', digits.
         //      A path containing other characters is rejected with an exception.
         //
-        //   2. It is assumed that write access to the repository is restricted to trusted users.
+        //   2. The Content of the node is expected to contain html markup.
+        //      The raw text is encoded prior to storage in the repository, and decoded on retrieval.
+        //      See ContentManager.ContentStoragePack, and ContentManager.ContentStorageUnpack.
+        //
+        //   3. This class, ContentNode, protects sensitive information from corruption by the application.
+        //      This avoids errors at the repository level.
+        //
+        //   4. To facilitate movement of content within this assembly, the ContentTransfer class is used.
+        //      All fields in the ContentTransfer class are accessed via automatic public properties.
+        //      The ContentTransfer class is never exposed outside this assembly.
         //-------------------------------------------------
-        public const string pathDividerStr = "/";
-        public const char pathDividerChar = '/';
         public const int contentLengthMax = 5000;
+        public const char pathDividerChar = '/';
+        public const string pathDividerStr = "/";
         public const int pathLengthMax = 500;
         public const int summaryLengthMax = 250;
         public const int titleLengthMax = 150;
 
         // Private fields.
-        // Type manager classes access these fields using the public properties.
+        // Type manager classes access these fields using the public get-only properties.
         private DateTime dateCreated;
         private int nodeId;
         private int parentId;
         private string path;
         private string type;
 
-        // Automatic Properties.
-        public string Content { get; set; }
-        public string Summary { get; set; }
-        public string Title { get; set; }
-
-        // Public Properties.
-        // Read access to all protected fields.
-        public DateTime DateCreated { get { return dateCreated; } }
-        public int NodeId { get { return nodeId; } }
-        public int ParentId { get { return parentId; } }
-        public string Path { get { return path; } }
-        public string Type { get { return type; } }
 
 
         // Internal constructor, called by constructors in type manager classes.
@@ -85,6 +82,43 @@ namespace WebContent.Manage.ContentClasses
             Summary = ct.Summary;
             Title = ct.Title;
         }
+
+
+
+        // Public automatic properties.
+        public string Content { get; set; }
+        public string Summary { get; set; }
+        public string Title { get; set; }
+
+
+
+        // Public get-only properties.
+        // Read access to protected fields.
+        public DateTime DateCreated { get { return dateCreated; } }
+        public int NodeId { get { return nodeId; } }
+        public int ParentId { get { return parentId; } }
+        public string Path { get { return path; } }
+        public string Type { get { return type; } }
+
+
+
+        //----------------------------
+        // Property to populate ContentTransfer object.
+        //----------------------------
+        internal ContentTransfer ContentTransferGet()
+        {
+            return new ContentTransfer
+            {
+                Content = Content,
+                DateCreated = DateCreated,
+                NodeId = NodeId,
+                ParentId = ParentId,
+                Path = Path,
+                Summary = Summary,
+                Title = Title
+            };
+        }
+
 
 
         //----------------------------
@@ -107,25 +141,6 @@ namespace WebContent.Manage.ContentClasses
             // Verify type match.
             if (!path.StartsWith(pathDividerStr + type))
                 throw new Exception(String.Format("Type {0} does not match path: {1}", type, path));
-        }
-
-
-
-        //----------------------------
-        // Populate ContentTransfer object.
-        //----------------------------
-        internal ContentTransfer ContentTransferGet()
-        {
-            return new ContentTransfer
-            {
-                Content = Content,
-                DateCreated = DateCreated,
-                NodeId = NodeId,
-                ParentId = ParentId,
-                Path = Path,
-                Summary = Summary,
-                Title = Title
-            };
         }
     }
 }

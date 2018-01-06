@@ -1,12 +1,14 @@
 ﻿@model System.Web.Mvc.HandleErrorInfo
 
 @{
-    ViewBag.Title = "Error";
+    ViewBag.LinkUrl = ViewBag.LinkUrl ?? "Internal Server Error";
 }
 
 <h1 class="text-danger">Error.</h1>
 <h2 class="text-danger">An error occurred while processing your request.</h2>
+<p>In a production environment, it is probably better to hide these internal details from the user. They will have been written to the log, for internal review.</p>
 <p>Controller: @Model.ControllerName</p>
 <p>Action: @Model.ActionName</p>
 <p>Exception Type: @Model.Exception.GetType()</p>
 <p>Details: @Model.Exception.Message</p>
+<p><a href=@ViewBag.LinkUrl>Return To Website</a></p>

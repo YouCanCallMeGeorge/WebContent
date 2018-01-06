@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,8 +10,7 @@ using WebContent.Manage.ContentClasses;
 using WebContent.Manage.HelperClasses;
 using WebContent.Manage.Interfaces;
 
-// Temp
-using WebContent.Manage.Repository;
+
 
 namespace WebContent.Manage.ContentManager
 {
@@ -50,16 +50,15 @@ namespace WebContent.Manage.ContentManager
         {
             try
             {
-                ContentRepositoryLinqToEF rl = new ContentRepositoryLinqToEF();
+                ContentTransfer nodeXfer = repository.NodeTypeMostRecentLeafGet("Blog");
+                if (nodeXfer == null)
+                    return null;
 
-                rl.NodeTypeMostRecentNLeavesGet("Blog", 5);
-
-
-                return new BlogEntry(repository.NodeTypeMostRecentLeafGet("Blog"));
+                nodeXfer.Content = ContentStorageUnpack(nodeXfer.Content);
+                return new BlogEntry(nodeXfer);
             }
             catch (Exception ex)
             {
-                string exm = ex.Message;
                 Debug.Print(ex.Message);
                 return null;
             }
@@ -71,18 +70,24 @@ namespace WebContent.Manage.ContentManager
         //--------------------------------------
         public List<ContentLinkInfo> ContentChildLinksGet(ContentNode node)
         {
+            if (node == null)
+                return null;
+
             List<ContentTransfer> childNodes = new List<ContentTransfer>();
             ContentLinkInfo linkInfo;
             List<ContentLinkInfo> linkInfoList = new List<ContentLinkInfo>();
             int segmentChild;
             string[] segments;
 
-            // The text for each child link will be the same as its segment in the path;
+            // The text for each child link will be the same as the child segment in the path.
             // The child segment follows the last segment in the parent path.
             segments = node.Path.Split(ContentNode.pathDividerChar);
             segmentChild = segments.Length;
 
             childNodes = repository.NodeChildrenGet(node.NodeId);
+            if (childNodes == null)
+                return null;
+
             foreach (ContentTransfer childNode in childNodes)
             {
                 segments = childNode.Path.Split(ContentNode.pathDividerChar);
@@ -104,14 +109,12 @@ namespace WebContent.Manage.ContentManager
         //--------------------------------------
         public ContentNode ContentGetById(int id)
         {
-            try
-            {
-                return new BlogEntry(repository.NodeGetById(id));
-            }
-            catch
-            {
+            ContentTransfer nodeXfer = repository.NodeGetById(id);
+            if (nodeXfer == null)
                 return null;
-            }
+
+            nodeXfer.Content = ContentStorageUnpack(nodeXfer.Content);
+            return new BlogEntry(nodeXfer);
         }
 
 
@@ -120,14 +123,12 @@ namespace WebContent.Manage.ContentManager
         //--------------------------------------
         public ContentNode ContentGetByPath(string path)
         {
-            try
-            {
-                return new BlogEntry(repository.NodeGetByPath(path));
-            }
-            catch
-            {
+            ContentTransfer nodeXfer = repository.NodeGetByPath(path);
+            if (nodeXfer == null)
                 return null;
-            }
+
+            nodeXfer.Content = ContentStorageUnpack(nodeXfer.Content);
+            return new BlogEntry(nodeXfer);
         }
 
 
@@ -136,6 +137,9 @@ namespace WebContent.Manage.ContentManager
         //--------------------------------------
         public List<ContentLinkInfo> ContentPathLinksGet(ContentNode node)
         {
+            if (node == null)
+                return null;
+
             ContentLinkInfo linkInfo;
             List<ContentLinkInfo> linkInfoList = new List<ContentLinkInfo>();
             string path;
@@ -170,6 +174,9 @@ namespace WebContent.Manage.ContentManager
             try
             {
                 xferList = repository.NodeTypeMostRecentNLeavesGet(type, num);
+                if (xferList == null)
+                    return null;
+
                 foreach (ContentTransfer xfer in xferList)
                 {
                     ContentLinkInfo linkInfo = new ContentLinkInfo
@@ -182,8 +189,9 @@ namespace WebContent.Manage.ContentManager
                     linkInfoList.Add(linkInfo);
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Debug.Print(ex.Message);
             }
 
             return linkInfoList;
@@ -197,13 +205,31 @@ namespace WebContent.Manage.ContentManager
         {
             ContentTransfer contentXfer = new ContentTransfer
             {
-                Content = content,
+                Content = ContentStoragePack(content),
                 NodeId = id,
                 Summary = summary,
                 Title = title
             };
 
             repository.NodeUpdate(contentXfer);
+        }
+
+
+
+        //--------------------------------------
+        //--------------------------------------
+        private string ContentStoragePack(string content)
+        {
+            return WebUtility.HtmlEncode(content);
+        }
+
+
+
+        //--------------------------------------
+        //--------------------------------------
+        private string ContentStorageUnpack(string content)
+        {
+            return WebUtility.HtmlDecode(content);
         }
 
 
@@ -250,8 +276,8 @@ namespace WebContent.Manage.ContentManager
                     {
                         Path = pathCurrent,
                         DateCreated = DateTime.Now,
-                        Content = ".",
-                        Summary = ".",
+                        Content = "...",
+                        Summary = "...",
                         Title = segmentCurrent,
                         ParentId = parentId
                     };
@@ -266,6 +292,7 @@ namespace WebContent.Manage.ContentManager
 
 
             // Create the new node and return it, fully populated.
+            nodeNew.Content = ContentStoragePack(nodeNew.Content);
             nodeNew.DateCreated = DateTime.Now;
             nodeNew.ParentId = parentId;
             return repository.NodeCreate(nodeNew);

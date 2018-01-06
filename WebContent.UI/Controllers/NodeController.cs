@@ -41,7 +41,7 @@ namespace WebContent.UI.Controllers
         // Index:
         // Show the most recent blog entry.
         //-------------------------
-        public ActionResult Index()
+        public ViewResult Index()
         {
             return BlogMostRecent();
         }
@@ -52,7 +52,7 @@ namespace WebContent.UI.Controllers
         // BlogEntryCreate:
         // Create a new blog entry.
         //-------------------------
-        public ActionResult BlogEntryCreate()
+        public ViewResult BlogEntryCreate()
         {
             NodeEditViewModel model = new NodeEditViewModel
             {
@@ -75,11 +75,11 @@ namespace WebContent.UI.Controllers
         // BlogMostRecent:
         // Show the most recent blog entry.
         //-------------------------
-        public ActionResult BlogMostRecent()
+        public ViewResult BlogMostRecent()
         {
             ContentNode node = contentManager.BlogEntryMostRecentGet();
             ViewBag.Title = "Blog";
-            NodeDisplayViewModel model = NodeDisplayPrep(node);
+            NodeDisplayViewModel model = NodeDisplayPrep(node, "Recent Blog Entry");
             return View("NodeDisplay", model);
         }
 
@@ -89,9 +89,12 @@ namespace WebContent.UI.Controllers
         //-------------------------
         public ActionResult Display(string nodePath)
         {
+            if (nodePath == null)
+                return RedirectToAction("Index");
+
             ContentNode node = contentManager.ContentGetByPath(nodePath);
             ViewBag.Title = "Blog";
-            NodeDisplayViewModel model = NodeDisplayPrep(node);
+            NodeDisplayViewModel model = NodeDisplayPrep(node, nodePath);
             return View("NodeDisplay", model);
         }
 
@@ -99,15 +102,16 @@ namespace WebContent.UI.Controllers
 
         //-------------------------
         //-------------------------
-        private NodeDisplayViewModel NodeDisplayPrep(ContentNode node)
+        private NodeDisplayViewModel NodeDisplayPrep(ContentNode node, string nodePath)
         {
+            // Default property values, if node is null.
             string content = "";
             int id = 0;
-            string title = "No content found";
+            string title = "Content at \"" + nodePath + "\" not found";
 
             if (node != null)
             {
-                content = node.Content;
+                content = node.Content.Replace(System.Environment.NewLine, "<br/>");
                 id = node.NodeId;
                 title = node.Title;
             }
@@ -131,6 +135,9 @@ namespace WebContent.UI.Controllers
         [HttpPost]
         public ActionResult EditBegin(string EditButton, int Id)
         {
+            if (Id == 0)
+                return RedirectToAction("/Display/");
+
             ContentNode node = contentManager.ContentGetById(Id);
 
             NodeEditViewModel model = new NodeEditViewModel
@@ -153,13 +160,13 @@ namespace WebContent.UI.Controllers
         //-------------------------
         //-------------------------
         [HttpPost]
+        [ValidateInput(false)]
         public RedirectToRouteResult EditEnd(string button, bool Create, string Content, int Id, string Path, string Summary, string Title)
         {
             if (button == "save")
             {
                 if (Create)
                 {
-                    // Need a general create method. Need type and path from page.
                     contentManager.BlogEntryCreate(Title, Summary, Content);
                 }
                 else
@@ -168,8 +175,8 @@ namespace WebContent.UI.Controllers
                 }
             }
 
-            // This will show the most recent blog entries (so including the entry just created, if any).
-            return RedirectToAction("Index");
+            // Show the edited node.
+            return RedirectToAction("/Display/" + Path);
         }
 
 
@@ -186,9 +193,23 @@ namespace WebContent.UI.Controllers
             // !!! Call the exception Logger.
             filterContext.ExceptionHandled = true;
 
-            ViewResult Result = this.View("Error", new HandleErrorInfo(exception,
-                filterContext.RouteData.Values["controller"].ToString(),
-                filterContext.RouteData.Values["action"].ToString()));
+            string linkUrlString = Url.Action(
+                                    "Index",
+                                    "Node",
+                                    routeValues: null,
+                                    protocol: Request.Url.Scheme);
+
+            ViewBag.LinkUrl = linkUrlString;
+
+
+            ViewResult Result = this.View(
+                                            "Error",
+                                            new HandleErrorInfo(exception,
+                                                                    filterContext.RouteData.Values["controller"].ToString(),
+                                                                    filterContext.RouteData.Values["action"].ToString()
+                                                               )
+                                         );
+
 
             filterContext.Result = Result;
         }

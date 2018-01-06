@@ -46,8 +46,25 @@ namespace WebContent.UI
 
             // Interface to Class mappings.
             container.RegisterType<IContentManager, ContentManager>();
-           // container.RegisterType<IContentRepository, ContentRepositorySql>();
+
+            // There are three repository classes available.
+            // All three are in the WebContent.Manage.Repository namespace.
+            // (In production, each would likely be in its own assembly.)
+            //container.RegisterType<IContentRepository, ContentRepositorySql>();
             container.RegisterType<IContentRepository, ContentRepositoryLinqToEF>();
+            //container.RegisterType<IContentRepository, ContentRepositoryLinqToFile>();
+
+            // Lifetime management:
+            // ContentRepositoryLinqToFile:
+            //      Should be singleton instance across the application.
+            //      The data will be locked during access.
+            //
+            // ContentRepositorySql, ContentRepositoryLinqToEF:
+            //      These can be created at each request, as SQL Server will lock the table.
+            //      (When multiple tables are touched in a series of queries, access must be within a transaction.)
+            //
+            // ContentManager:
+            //      Can be created at each request, because both storage engines manage access to the data.
         }
     }
 }

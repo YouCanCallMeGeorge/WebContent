@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
@@ -13,16 +14,25 @@ namespace WebContent.Manage.Repository
 {
     public class ContentRepositorySql : IContentRepository
     {
-        const string DB_CONNECTION_STRING = "server=(localdb)\\MSSQLLocalDB;Initial Catalog=WebContent;Persist Security Info=False;Integrated Security=True";
+        private string dbConnectionString;
+        private const string COL_NAMES = "Id, Path, Summary, Title, Content, DateCreated, ParentId";
+        private const int COL_ID = 0;
+        private const int COL_PATH = 1;
+        private const int COL_SUMMARY = 2;
+        private const int COL_TITLE = 3;
+        private const int COL_CONTENT = 4;
+        private const int COL_DATE_CREATED = 5;
+        private const int COL_PARENT_ID = 6;
 
-        const string COL_NAMES = "Id, Path, Summary, Title, Content, DateCreated, ParentId";
-        const int COL_ID = 0;
-        const int COL_PATH = 1;
-        const int COL_SUMMARY = 2;
-        const int COL_TITLE = 3;
-        const int COL_CONTENT = 4;
-        const int COL_DATE_CREATED = 5;
-        const int COL_PARENT_ID = 6;
+
+        //--------------------------------------
+        //--------------------------------------
+        public ContentRepositorySql()
+        {
+            // Get connection string from Web.config.
+            dbConnectionString = ConfigurationManager.ConnectionStrings["WebContentContext"].ConnectionString;
+        }
+
 
 
         //--------------------------------------
@@ -33,7 +43,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -64,7 +74,7 @@ namespace WebContent.Manage.Repository
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -105,7 +115,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -135,7 +145,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -168,7 +178,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -221,7 +231,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -257,7 +267,7 @@ namespace WebContent.Manage.Repository
 
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {
@@ -296,7 +306,7 @@ namespace WebContent.Manage.Repository
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = DB_CONNECTION_STRING;
+                conn.ConnectionString = dbConnectionString;
                 conn.Open();
                 using (SqlCommand cmd = new SqlCommand())
                 {

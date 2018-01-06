@@ -3,7 +3,7 @@
 @model HomeViewModel
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-4">
         <div class="row">
             <h2>Home</h2>
             <h3>Why this website?</h3>
@@ -15,16 +15,24 @@
     </div>
     <div class="col-md-4">
         <div class="row">
-            <h3>Recent Blog Posts</h3>
-
-            @foreach (ContentLinkInfo linkInfo in Model.RecentLinks)
+            <h2>Book</h2>
+            <br/>
+            <p>Placeholder for book content.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="row">
+            <h2>Recent Blog Posts</h2>
+            @if (Model.RecentLinks != null)
             {
-                <div class="row">
-                    <a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a>
-                    <p>@linkInfo.Summary</p>
-                </div>
+                foreach (ContentLinkInfo linkInfo in Model.RecentLinks)
+                {
+                    <div class="row">
+                        <a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a>
+                        <p>@linkInfo.Summary</p>
+                    </div>
+                }
             }
         </div>
     </div>
 </div>
-

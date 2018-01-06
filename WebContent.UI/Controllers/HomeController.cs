@@ -26,7 +26,7 @@ namespace WebContent.UI.Controllers
 
         //-------------------------
         //-------------------------
-        public ActionResult Index()
+        public ViewResult Index()
         {
             HomeViewModel model = new HomeViewModel
             {
@@ -51,9 +51,25 @@ namespace WebContent.UI.Controllers
             // !!! Call the exception Logger.
             filterContext.ExceptionHandled = true;
 
-            ViewResult Result = this.View("Error", new HandleErrorInfo(exception,
-                filterContext.RouteData.Values["controller"].ToString(),
-                filterContext.RouteData.Values["action"].ToString()));
+
+            string linkUrlString = Url.Action(
+                                    "Index",
+                                    "Home",
+                                    routeValues: null,
+                                    protocol: Request.Url.Scheme);
+
+            ViewBag.LinkUrl = linkUrlString;
+
+
+            ViewResult Result = this.View(
+                                            "Error",
+                                            new HandleErrorInfo(exception,
+                                                                    filterContext.RouteData.Values["controller"].ToString(),
+                                                                    filterContext.RouteData.Values["action"].ToString()
+                                                               )
+                                         );
+
+
 
             filterContext.Result = Result;
         }

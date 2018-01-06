@@ -15,24 +15,30 @@
     </div>
     <div class="row">
         <div class="col-md-12">
-            @foreach (ContentLinkInfo linkInfo in Model.PathLinks)
+            @if (Model.PathLinks != null)
             {
-                <span><a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a></span>
+                foreach (ContentLinkInfo linkInfo in Model.PathLinks)
+                {
+                    <span><a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a></span>
+                }
             }
         </div>
     </div>
     <div class="row">
         <div class="col-md-4">
-            @foreach (ContentLinkInfo linkInfo in Model.ChildLinks)
+            @if (Model.ChildLinks != null)
             {
-                <div class="row">
-                    <a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a>
-                </div>
+                foreach (ContentLinkInfo linkInfo in Model.ChildLinks)
+                {
+                    <div class="row">
+                        <a href="/Node/Display/@linkInfo.Url">@linkInfo.Text</a>
+                    </div>
+                }
             }
         </div>
         <div class="col-md-8">
             <p>@Model.Title</p>
-            <p>@Model.Content</p>
+            <p>@Html.Raw(Model.Content)</p>
         </div>
     </div>
 </div>
