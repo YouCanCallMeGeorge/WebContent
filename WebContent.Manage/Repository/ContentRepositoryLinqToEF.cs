@@ -12,6 +12,8 @@ using WebContent.Manage.Repository.Context;
 
 namespace WebContent.Manage.Repository
 {
+    // Access to the repository via LINQ and Entity Framework.
+    // See IContentRepository for descriptions of the methods in this class.
     public class ContentRepositoryLinqToEF : IContentRepository
     {
 
@@ -137,6 +139,7 @@ namespace WebContent.Manage.Repository
                 }
                 catch (Exception ex)
                 {
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 
@@ -165,6 +168,7 @@ namespace WebContent.Manage.Repository
                 }
                 catch (Exception ex)
                 {
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 
@@ -200,7 +204,7 @@ namespace WebContent.Manage.Repository
                     where n1.Path.StartsWith(nodeType)
                     join n2 in db.Nodes on n1.Id equals n2.ParentId into join1
                     from n3 in join1.DefaultIfEmpty()   // DefaultIfEmpty specifies outer join
-                    where n3 == null // null n3 indicates n1.Id has no child (null n3 is a leaf)
+                    where n3 == null // null n3 indicates n1.Id has no child; null n3 is a leaf
                     orderby n1.Id descending
                     select n1
                     ).Take(num).ToList<Node>();
@@ -229,6 +233,7 @@ namespace WebContent.Manage.Repository
                 catch (Exception ex)
                 {
                     // Exception is thrown if the node does not exist.
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 

@@ -12,15 +12,14 @@ namespace WebContent.Manage.ContentClasses
     {
         //---------------------------------------------------------
         // A ContentNode is content at an addressable location in a tree structure.
-        // The address is a path, which has the familiar form of a file system path.
+        // The address is a path, which has the form of a file system path.
         //   Example: /Blog/2017/12/20.
         //
         // The content consists of three strings:
         //    Title.
         //    Summary.
-        //      The summary is shown in listings of content, with a link to view the full article.
+        //      The summary is shown in listings of content, together with a link to view the full article.
         //    Content.
-        //      The content is assumed to include HTML markup.
         //
         // The content is of a certain type, indicated by the first segment in the path.
         //    Example: The content at /Blog/2017/12/20 is of type Blog.
@@ -30,7 +29,7 @@ namespace WebContent.Manage.ContentClasses
         // For each type, there exists a subclass to manage the type.
         //    Example: The type manager class for Blog type is BlogEntry.
         //
-        //  A ContentNode is always created (added to the repository) through a type manager class.
+        //  A ContentNode is always created through a type manager class.
         //    This rule ensures that the type manager has full control over the type. 
         // 
         //
@@ -45,6 +44,7 @@ namespace WebContent.Manage.ContentClasses
         //
         //   3. This class, ContentNode, protects sensitive information from corruption by the application.
         //      This avoids errors at the repository level.
+        //      Example: The node id, which is used by the repository to retrieve the node, is read-only to the application. 
         //
         //   4. To facilitate movement of content within this assembly, the ContentTransfer class is used.
         //      All fields in the ContentTransfer class are accessed via automatic public properties.
@@ -58,7 +58,7 @@ namespace WebContent.Manage.ContentClasses
         public const int titleLengthMax = 150;
 
         // Private fields.
-        // Type manager classes access these fields using the public get-only properties.
+        // Type manager classes access these fields using the public read-only properties.
         private DateTime dateCreated;
         private int nodeId;
         private int parentId;
@@ -92,8 +92,7 @@ namespace WebContent.Manage.ContentClasses
 
 
 
-        // Public get-only properties.
-        // Read access to protected fields.
+        // Public read-only properties, for access to protected fields.
         public DateTime DateCreated { get { return dateCreated; } }
         public int NodeId { get { return nodeId; } }
         public int ParentId { get { return parentId; } }
@@ -103,7 +102,7 @@ namespace WebContent.Manage.ContentClasses
 
 
         //----------------------------
-        // Property to populate ContentTransfer object.
+        // Property to populate ContentTransfer object with node data.
         //----------------------------
         internal ContentTransfer ContentTransferGet()
         {
@@ -128,7 +127,7 @@ namespace WebContent.Manage.ContentClasses
         //----------------------------
         protected void PathVerify()
         {
-            if (string.IsNullOrEmpty(path))
+            if (string.IsNullOrWhiteSpace(path))
                 throw new Exception(String.Format("Invalid node path: {0}", path));
 
             if (path.Length > pathLengthMax)

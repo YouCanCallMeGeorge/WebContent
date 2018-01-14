@@ -45,26 +45,40 @@ namespace WebContent.UI
             // container.LoadConfiguration();
 
             // Interface to Class mappings.
+
+            // There is only one class that implements IContentManager.
+            // Use of the interface allows for easy substitution of a different implementation in future.
             container.RegisterType<IContentManager, ContentManager>();
+
 
             // There are three repository classes available.
             // All three are in the WebContent.Manage.Repository namespace.
             // (In production, each would likely be in its own assembly.)
-            //container.RegisterType<IContentRepository, ContentRepositorySql>();
-            container.RegisterType<IContentRepository, ContentRepositoryLinqToEF>();
-            //container.RegisterType<IContentRepository, ContentRepositoryLinqToFile>();
+            //      ContentRepositorySql            Access SQL Server database via SqlConnection object and SQL statements.
+            //      ContentRepositoryLinqToEF       Access SQL Server database via LINQ query and Entity Framework.
+            //      ContentRepositoryLinqToFile     A generic list holds the data in memory, backed by a file on disc, via XmlSerializer.
+            //
+            // At first release, there is one table in the SQL Server database.
+            // That table is automatically locked by SQL Server while a command is executing.
+            // The memory-resident list and its file backup are protected from corruption by a lock on a static object.
+            // So there is no risk of corrupting the data in the multi-threaded ASP.Net environment,
+            // regardless of which repository implementation is used, and regardless of whether there are many instances
+            // or a singleton instance of the repository class.
 
-            // Lifetime management:
-            // ContentRepositoryLinqToFile:
-            //      Should be singleton instance across the application.
-            //      The data will be locked during access.
-            //
-            // ContentRepositorySql, ContentRepositoryLinqToEF:
-            //      These can be created at each request, as SQL Server will lock the table.
-            //      (When multiple tables are touched in a series of queries, access must be within a transaction.)
-            //
-            // ContentManager:
-            //      Can be created at each request, because both storage engines manage access to the data.
+            // ***Singleton instance.***
+            // Uncomment the line for the selected repository class.
+            // Comment out all lines for multiple instances, below.
+            //IContentRepository cr = new ContentRepositorySql();
+            //IContentRepository cr = new ContentRepositoryLinqToEF();
+            IContentRepository cr = new ContentRepositoryLinqToFile();
+            container.RegisterInstance(cr);
+
+            // ***Multiple instances.***
+            // Uncomment the line for the selected repository class.
+            // Comment out all lines for singleton instance, above.
+            //container.RegisterType<IContentRepository, ContentRepositorySql>();
+            //container.RegisterType<IContentRepository, ContentRepositoryLinqToEF>();
+            //container.RegisterType<IContentRepository, ContentRepositoryLinqToFile>();
         }
     }
 }

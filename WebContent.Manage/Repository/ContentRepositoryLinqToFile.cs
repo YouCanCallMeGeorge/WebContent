@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Xml.Serialization;
 
-using System.Data;              // support for ContentListCopyFromDatabase
-using System.Data.SqlClient;    // support for ContentListCopyFromDatabase
+// These two references support the utility method ContentListCopyFromDatabase
+using System.Data;              
+using System.Data.SqlClient;    
 
 
 using WebContent.Manage.HelperClasses;
@@ -18,10 +19,10 @@ using WebContent.Manage.Interfaces;
 
 namespace WebContent.Manage.Repository
 {
-
+    // Access to the repository via LINQ to objects, backed by a file.
+    // See IContentRepository for descriptions of the methods in this class.
     public class ContentRepositoryLinqToFile : IContentRepository
     {
-
         // Web content in a list.
         // The list is equivalent to the Node table in the database.
         static List<ContentTransfer> contentList = null;
@@ -31,7 +32,10 @@ namespace WebContent.Manage.Repository
         // Path to file that contains the list of nodes.
         static string filePathFull;
 
-        static object dataAccess;
+        // dataAccess object:
+        // All methods that access the static fields in this class lock this object.
+        // This protects the data from corruption in the multi-threaded ASP.Net environment.
+        static object dataAccess = new Object();
 
 
         //--------------------------------------
@@ -39,14 +43,11 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
         public ContentRepositoryLinqToFile()
         {
-            // Lock this object while accessing contentList or nodeIdNext.
-            dataAccess = new object();
-
             // Get path to content file.
             filePathFull = ConfigurationManager.AppSettings["ContentRepositoryFilePath"];
 
             // Copy from database to file.
-            // This operation is manually triggered--definitely not production worthy.
+            // Normally commented out; not for production use.
             //ContentListCopyFromDatabase();
 
             // Read content from file.
@@ -136,6 +137,7 @@ namespace WebContent.Manage.Repository
                 catch (Exception ex)
                 {
                     // Exception is thrown if the node does not exist.
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 
@@ -163,6 +165,7 @@ namespace WebContent.Manage.Repository
                 catch (Exception ex)
                 {
                     // Exception is thrown if the node does not exist.
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 
@@ -228,6 +231,7 @@ namespace WebContent.Manage.Repository
                 catch (Exception ex)
                 {
                     // Exception is thrown if the node does not exist.
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                 }
 
@@ -249,7 +253,7 @@ namespace WebContent.Manage.Repository
         //--------------------------------------
 
         //--------------------------------------
-        // ContentListInitialize:
+        // ContentListRead:
         // Read nodes from the repository file into the contentList.
         // Called from the constructor.
         //--------------------------------------
@@ -277,6 +281,7 @@ namespace WebContent.Manage.Repository
                 }
                 catch (Exception ex)
                 {
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                     contentList = null;
                 }
@@ -320,6 +325,7 @@ namespace WebContent.Manage.Repository
                 }
                 catch (Exception ex)
                 {
+                    // Replace this with a call to the logger.
                     Debug.Print(ex.Message);
                     throw;
                 }
@@ -382,7 +388,7 @@ namespace WebContent.Manage.Repository
 
 
         //--------------------------------------
-        // Also stolen from ContentRepositorySql
+        // Also copied from ContentRepositorySql
         //--------------------------------------
         private static ContentTransfer NodeRecordUnpack(SqlDataReader reader)
         {

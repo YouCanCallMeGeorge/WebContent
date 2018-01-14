@@ -14,6 +14,7 @@ using WebContent.Manage.Interfaces;
 
 namespace WebContent.Manage.ContentManager
 {
+    // See IContentManager for descriptions of the methods in this class.
     public class ContentManager : IContentManager
     {
         private IContentRepository repository;
@@ -59,9 +60,30 @@ namespace WebContent.Manage.ContentManager
             }
             catch (Exception ex)
             {
+                // Replace this with a call to the logger.
                 Debug.Print(ex.Message);
                 return null;
             }
+        }
+
+
+
+        //--------------------------------------
+        //--------------------------------------
+        public bool BlogEntryTodayExistsTest()
+        {
+            try
+            {
+                if (repository.NodeExistsTest(BlogEntry.PathMake()))
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                // Replace this with a call to the logger.
+                Debug.Print(ex.Message);
+            }
+
+            return false;
         }
 
 
@@ -105,6 +127,7 @@ namespace WebContent.Manage.ContentManager
 
 
 
+
         //--------------------------------------
         //--------------------------------------
         public ContentNode ContentGetById(int id)
@@ -123,6 +146,9 @@ namespace WebContent.Manage.ContentManager
         //--------------------------------------
         public ContentNode ContentGetByPath(string path)
         {
+            if (path.EndsWith("/"))
+                path = path.Substring(0, path.Length - 1);
+
             ContentTransfer nodeXfer = repository.NodeGetByPath(path);
             if (nodeXfer == null)
                 return null;
@@ -191,10 +217,34 @@ namespace WebContent.Manage.ContentManager
             }
             catch (Exception ex)
             {
+                // Replace this with a call to the logger.
                 Debug.Print(ex.Message);
             }
 
             return linkInfoList;
+        }
+
+
+
+        //--------------------------------------
+        //--------------------------------------
+        public List<ContentLinkInfo> ContentSiblingLinksGet(ContentNode node)
+        {
+            if (node == null)
+                return null;
+
+            string path = node.Path;
+
+            // Find the final slash in the path.
+            int loc = path.LastIndexOf("/");
+            if (loc <= 0)
+                return null;
+
+            // Retrieve the parent node.
+            ContentNode nodeParent = ContentGetByPath(path.Substring(0, loc));
+
+            // Children of the parent node are siblings to the node.
+            return ContentChildLinksGet(nodeParent);
         }
 
 
@@ -210,6 +260,8 @@ namespace WebContent.Manage.ContentManager
                 Summary = summary,
                 Title = title
             };
+
+            ContentLengthVerify(ref contentXfer);
 
             repository.NodeUpdate(contentXfer);
         }
@@ -236,6 +288,40 @@ namespace WebContent.Manage.ContentManager
 
         //--------------------------------------
         //--------------------------------------
+        private void ContentLengthVerify(ref ContentTransfer node)
+        {
+            // Content, Summary, and Title must meet length requirements.
+            if (String.IsNullOrWhiteSpace(node.Content))
+                throw new Exception("Node Content is required");
+
+            if (String.IsNullOrWhiteSpace(node.Summary))
+                throw new Exception("Node Summary is required");
+
+            if (String.IsNullOrWhiteSpace(node.Title))
+                throw new Exception("Node Title is required");
+
+
+            int stubLength = 80;
+            string msg;
+            string msgLength = " exceeds maximum length of {0} characters: {1}...";
+
+            msg = "Content" + msgLength;
+            if (node.Content.Length > ContentNode.contentLengthMax)
+                throw new Exception(String.Format(msg, ContentNode.contentLengthMax, node.Content.Substring(0, stubLength)));
+
+            msg = "Summary" + msgLength;
+            if (node.Summary.Length > ContentNode.summaryLengthMax)
+                throw new Exception(String.Format(msg, ContentNode.summaryLengthMax, node.Summary.Substring(0, stubLength)));
+
+            msg = "Title" + msgLength;
+            if (node.Title.Length > ContentNode.titleLengthMax)
+                throw new Exception(String.Format(msg, ContentNode.titleLengthMax, node.Title.Substring(0, stubLength)));
+        }
+
+
+
+        //--------------------------------------
+        //--------------------------------------
         private ContentTransfer NodeCreate(ContentTransfer nodeNew)
         {
             ContentTransfer nodeCurrent;
@@ -246,7 +332,9 @@ namespace WebContent.Manage.ContentManager
             string[] segments;
             string segmentCurrent;
 
-            // The path is trusted, having been created by the ContentManager object.
+            ContentLengthVerify(ref nodeNew);
+
+            // Reject duplicate path.
             if (repository.NodeExistsTest(nodeNew.Path))
                 throw new Exception("Cannot create node with duplicate path: " + nodeNew.Path);
 

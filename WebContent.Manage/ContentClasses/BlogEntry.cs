@@ -17,8 +17,6 @@ namespace WebContent.Manage.ContentClasses
         }
 
 
-
-
         //--------------------------------------
         // PathMake:
         //   Returns today's date, segmented in path format.
@@ -28,6 +26,5 @@ namespace WebContent.Manage.ContentClasses
         {
             return "Blog/" + DateTime.Now.ToString("yyyy/MMMM/dd");
         }
-
     }
 }

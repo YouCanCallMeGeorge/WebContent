@@ -10,19 +10,25 @@
             <p>
                 This website chronicles my deep dive into current web programming tools and practices.
             </p>
-            <p><a class="btn btn-default" href="/Node/BlogMostRecent">Go To Blog</a></p>
+            <p>
+                The most recent blog posts are listed to the right on this home page.
+            </p>
+            <p>
+                In the <a href="/Node/BlogMostRecent">Blog section</a> you will find all posts, beginning with the entry created on December 26, 2017.
+            </p>
         </div>
     </div>
     <div class="col-md-4">
         <div class="row">
             <h2>Book</h2>
-            <br/>
+            <br />
             <p>Placeholder for book content.</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="row">
+        <div class="row text-left">
             <h2>Recent Blog Posts</h2>
+            <br />
             @if (Model.RecentLinks != null)
             {
                 foreach (ContentLinkInfo linkInfo in Model.RecentLinks)

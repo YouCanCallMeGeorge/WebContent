@@ -10,6 +10,7 @@ namespace WebContent.UI.Models.Node
 {
     public class NodeDisplayViewModel
     {
+        public bool BlogTodayExists { get; set; }
         public List<ContentLinkInfo> PathLinks { get; set; }
         public List<ContentLinkInfo> ChildLinks { get; set; }
         public string Content { get; set; }

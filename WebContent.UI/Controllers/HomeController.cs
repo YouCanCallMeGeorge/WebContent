@@ -10,6 +10,8 @@ using WebContent.UI.Models.Home;
 
 namespace WebContent.UI.Controllers
 {
+    [RoutePrefix("Home")]
+    [Route("{action}")]
     public class HomeController : Controller
     {
         private IContentManager contentManager;
@@ -26,11 +28,14 @@ namespace WebContent.UI.Controllers
 
         //-------------------------
         //-------------------------
+        [Route("~/")]
+        [Route]
+        [Route("Index")]
         public ViewResult Index()
         {
             HomeViewModel model = new HomeViewModel
             {
-                RecentLinks = contentManager.ContentRecentNLinksGet("Blog", 5)
+                RecentLinks = contentManager.ContentRecentNLinksGet("Blog", 8)
             };
 
             ViewBag.Title = "Home";
@@ -40,6 +45,7 @@ namespace WebContent.UI.Controllers
 
 
         //-------------------------
+        // Trap exceptions and report to user.
         //-------------------------
         protected override void OnException(ExceptionContext filterContext)
         {

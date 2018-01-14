@@ -13,11 +13,15 @@ namespace WebContent.UI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "default",
-                url: "{controller}/{action}/{*nodePath}",
-                defaults: new { controller = "Home", action = "Index" }
-            );
+            // *** Comment out this line to use convention-based routing.
+            routes.MapMvcAttributeRoutes();
+
+            // *** Uncomment this statement to use convention-based routing.
+            //routes.MapRoute(
+            //    name: "default",
+            //    url: "{controller}/{action}/{*nodePath}",
+            //    defaults: new { controller = "Home", action = "Index", nodePath = UrlParameter.Optional }
+            //);
         }
     }
 }

@@ -17,11 +17,11 @@ namespace WebContent.Manage.Interfaces
         //  will return null if the requested object (or list) was not found.
         //  The caller must trap the null return and take appropriate action.
         //
-        //  (The above, by definition, does not include methods that create new records in the repository.)
+        //  The above, by definition, does not include methods that create new records in the repository.
         //
         //  Any other failure to complete a method will result in an exception.
         //  At first release, the base Exception object is thrown.
-        //  Custom exception subclasses can be defined in later releases, as desired.
+        //  In subsequent releases, custom exception subclasses can be defined, as desired.
         //--------------------------------------
 
 
@@ -33,6 +33,11 @@ namespace WebContent.Manage.Interfaces
         //--------------------------------------
         //--------------------------------------
         BlogEntry BlogEntryMostRecentGet();
+
+
+        //--------------------------------------
+        //--------------------------------------
+        bool BlogEntryTodayExistsTest();
 
 
         //--------------------------------------
@@ -58,6 +63,11 @@ namespace WebContent.Manage.Interfaces
         //--------------------------------------
         //--------------------------------------
         List<ContentLinkInfo> ContentRecentNLinksGet(string type, int num);
+
+
+        //--------------------------------------
+        //--------------------------------------
+        List<ContentLinkInfo> ContentSiblingLinksGet(ContentNode node);
 
 
         //--------------------------------------

@@ -5,11 +5,14 @@ using System.Web;
 using System.Web.Mvc;
 
 using WebContent.Manage.ContentClasses;
+using WebContent.Manage.HelperClasses;
 using WebContent.Manage.Interfaces;
 using WebContent.UI.Models.Node;
 
 namespace WebContent.UI.Controllers
 {
+    [RoutePrefix("Node")]
+    [Route("{action}")]
     public class NodeController : Controller
     {
         private IContentManager contentManager;
@@ -26,47 +29,24 @@ namespace WebContent.UI.Controllers
         //-------------------------
         // Notes:
         //  A Node is content at an addressable location in a tree structure.
-        //  See WebContent.Manage for more information.
+        //  See WebContent.ContentManager for more information.
         //
         //  All HTML content is placed in the bootstrap grid.
         //  See _Layout.cshtml.
         //
         //  The column size specification is col-md, putting the stacking change threshold at 992 pixels.
         //  See the "Media Queries" heading at getbootstrap.com/docs/3.3/css/.
-        //
-        //  Node content occupies 8 of the 12 columns in the grid: col-md-8.
         //-------------------------
 
         //-------------------------
         // Index:
         // Show the most recent blog entry.
         //-------------------------
+        [Route]
+        [Route("Index")]
         public ViewResult Index()
         {
             return BlogMostRecent();
-        }
-
-
-
-        //-------------------------
-        // BlogEntryCreate:
-        // Create a new blog entry.
-        //-------------------------
-        public ViewResult BlogEntryCreate()
-        {
-            NodeEditViewModel model = new NodeEditViewModel
-            {
-                Content = "[content]",
-                Create = true,
-                Id = 0,
-                Path = BlogEntry.PathMake(),
-                Summary = "[summary]",
-                Title = "Blog Entry " + DateTime.Now.ToString("yyyy/MM/dd"),
-                Type = "Blog"
-            };
-
-            ViewBag.Title = "New Entry: " + model.Path;
-            return View("NodeEdit", model);
         }
 
 
@@ -78,7 +58,6 @@ namespace WebContent.UI.Controllers
         public ViewResult BlogMostRecent()
         {
             ContentNode node = contentManager.BlogEntryMostRecentGet();
-            ViewBag.Title = "Blog";
             NodeDisplayViewModel model = NodeDisplayPrep(node, "Recent Blog Entry");
             return View("NodeDisplay", model);
         }
@@ -86,14 +65,16 @@ namespace WebContent.UI.Controllers
 
 
         //-------------------------
+        // Display:
+        // Show content of a node, with links to navigate to other entries.
         //-------------------------
+        [Route("Display/{*nodePath?}")]
         public ActionResult Display(string nodePath)
         {
             if (nodePath == null)
                 return RedirectToAction("Index");
 
             ContentNode node = contentManager.ContentGetByPath(nodePath);
-            ViewBag.Title = "Blog";
             NodeDisplayViewModel model = NodeDisplayPrep(node, nodePath);
             return View("NodeDisplay", model);
         }
@@ -116,9 +97,21 @@ namespace WebContent.UI.Controllers
                 title = node.Title;
             }
 
+            // Get the list of links to children of this node.
+            List<ContentLinkInfo> childLinks = contentManager.ContentChildLinksGet(node);
+
+            // If the node has no children, the list of links to its siblings will be displayed.
+            if (childLinks != null)
+            {
+                if (childLinks.Count == 0)
+                    childLinks = contentManager.ContentSiblingLinksGet(node);
+            }
+
+
             NodeDisplayViewModel model = new NodeDisplayViewModel
             {
-                ChildLinks = contentManager.ContentChildLinksGet(node),
+                BlogTodayExists = contentManager.BlogEntryTodayExistsTest(),
+                ChildLinks = childLinks,
                 PathLinks = contentManager.ContentPathLinksGet(node),
                 Content = content,
                 Id = id,
@@ -131,14 +124,68 @@ namespace WebContent.UI.Controllers
 
 
         //-------------------------
+        // Begin methods related to the form in the NodeDisplay view.
+        //-------------------------
+
+
+        //-------------------------
+        // Process the form in the NodeDisplay view.
         //-------------------------
         [HttpPost]
-        public ActionResult EditBegin(string EditButton, int Id)
+        public ActionResult NodeDisplayFormProcess(string button, int Id)
         {
-            if (Id == 0)
-                return RedirectToAction("/Display/");
+            if (button == "BlogEntryCreate")
+            {
+                return BlogEntryCreate();
+            }
 
-            ContentNode node = contentManager.ContentGetById(Id);
+            if (button == "NodeEdit")
+            {
+                return NodeEditBegin(Id);
+            }
+
+            // Should never get here, as this method is only called if one of the buttons is pressed.
+            return RedirectToAction("Index");
+        }
+
+
+
+        //-------------------------
+        // Create a new blog entry.
+        // Called by NodeDisplayFormProcess.
+        //-------------------------
+        private ActionResult BlogEntryCreate()
+        {
+            if (contentManager.BlogEntryTodayExistsTest())
+                return RedirectToAction("Index");
+
+            NodeEditViewModel model = new NodeEditViewModel
+            {
+                Content = "[content]",
+                Create = true,
+                Id = 0,
+                Path = BlogEntry.PathMake(),
+                Summary = "[summary]",
+                Title = "Blog Entry " + DateTime.Now.ToString("yyyy/MM/dd"),
+                Type = "Blog"
+            };
+
+            ViewBag.Title = "New Entry: " + model.Path;
+            return View("NodeEdit", model);
+        }
+
+
+
+        //-------------------------
+        // Present the displayed node for editing.
+        // Called by NodeDisplayFormProcess.
+        //-------------------------
+        private ActionResult NodeEditBegin(int id)
+        {
+            if (id == 0)
+                return RedirectToAction("/Display");
+
+            ContentNode node = contentManager.ContentGetById(id);
 
             NodeEditViewModel model = new NodeEditViewModel
             {
@@ -156,32 +203,52 @@ namespace WebContent.UI.Controllers
         }
 
 
+        //-------------------------
+        // End methods related to the form in the NodeDisplay view.
+        //-------------------------
+
+
 
         //-------------------------
+        // Process the form in the NodeEdit view.
+        // Save the edited node or cancel the edit.
+        // Redirect to show the [possibly] edited node.
         //-------------------------
         [HttpPost]
-        [ValidateInput(false)]
+        [ValidateInput(false)]  // Allow HTML markup in content. ContentManager will encode the markup prior to storage in the repository.
         public RedirectToRouteResult EditEnd(string button, bool Create, string Content, int Id, string Path, string Summary, string Title)
         {
-            if (button == "save")
+            // On cancellation of a new node, go to the Index action of this controller.
+            if (Create && (button == "Cancel"))
+            {
+                return RedirectToAction("Index");
+            }
+
+
+            if (button == "Save")
             {
                 if (Create)
                 {
+                    // Create the new node.
                     contentManager.BlogEntryCreate(Title, Summary, Content);
                 }
                 else
                 {
+                    // Update the existing node.
                     contentManager.ContentUpdate(Id, Title, Summary, Content);
                 }
             }
 
-            // Show the edited node.
-            return RedirectToAction("/Display/" + Path);
+
+            // Show the node, whether saved or cancelled.
+            string url = "/Display/" + Path;
+            return RedirectToAction(url);
         }
 
 
 
         //-------------------------
+        // Trap exceptions and report to user.
         //-------------------------
         protected override void OnException(ExceptionContext filterContext)
         {

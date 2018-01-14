@@ -12,6 +12,8 @@ using WebContent.Manage.Interfaces;
 
 namespace WebContent.Manage.Repository
 {
+    // Access to the repository via SqlCommand, backed by a SQL Server database.
+    // See IContentRepository for descriptions of the methods in this class.
     public class ContentRepositorySql : IContentRepository
     {
         private string dbConnectionString;
