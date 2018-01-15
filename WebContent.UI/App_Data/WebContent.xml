@@ -125,23 +125,23 @@ In that same post I saw the solution to the problem of no paragraph separation (
     <Content>This evening I cleaned up error handling throughout the solution.
 
 Handling exceptions:
-Exceptions are ultimately handled in the Home and Node controllers, in the overridden &amp;lt;strong&amp;gt;OnException&amp;lt;/strong&amp;gt; method.
-In the Error view, I added a link to an absolute URL to the node&amp;#39;s Index action.
+Exceptions are ultimately handled in the Home and Node controllers, in the overridden &lt;strong&gt;OnException&lt;/strong&gt; method.
+In the Error view, I added a link to an absolute URL to the node's Index action.
 
 Handling content not found:
-All methods in the &amp;lt;strong&amp;gt;IContentManager&amp;lt;/strong&amp;gt; interface now return &amp;lt;strong&amp;gt;null&amp;lt;/strong&amp;gt; when the requested content is not found. In these cases, the normal view is presented, with a message that the content was not found.
+All methods in the &lt;strong&gt;IContentManager&lt;/strong&gt; interface now return &lt;strong&gt;null&lt;/strong&gt; when the requested content is not found. In these cases, the normal view is presented, with a message that the content was not found.
 
-&amp;lt;strong&amp;gt;Quirk:&amp;lt;/strong&amp;gt;
-I found that specifying &amp;lt;strong&amp;gt;UrlParameter.Optional&amp;lt;/strong&amp;gt; for the final parameter in the call to &amp;lt;strong&amp;gt;MapRoute&amp;lt;/strong&amp;gt; had an unexpected side effect in the Node controller. When the Node controller calls &amp;lt;strong&amp;gt;RedirectAction(&amp;lt;em&amp;gt;url&amp;lt;/em&amp;gt;)&amp;lt;/strong&amp;gt;, a slash is appended to the url.
+&lt;strong&gt;Quirk:&lt;/strong&gt;
+I found that specifying &lt;strong&gt;UrlParameter.Optional&lt;/strong&gt; for the final parameter in the call to &lt;strong&gt;MapRoute&lt;/strong&gt; had an unexpected side effect in the Node controller. When the Node controller calls &lt;strong&gt;RedirectAction(&lt;em&gt;url&lt;/em&gt;)&lt;/strong&gt;, a slash is appended to the url.
 
-The &amp;lt;em&amp;gt;url&amp;lt;/em&amp;gt; is the path to a blog entry, so the trailing slash caused an error when retrieval of the entry was attempted. I worked around this by having ContentManager remove any trailing slash from the node path, prior to querying the database. 
+The &lt;em&gt;url&lt;/em&gt; is the path to a blog entry, so the trailing slash caused an error when retrieval of the entry was attempted. I worked around this by having ContentManager remove any trailing slash from the node path, prior to querying the database. 
 
 This is the definition of the route:
 
             routes.MapRoute(
-                name: &amp;quot;default&amp;quot;,
-                url: &amp;quot;{controller}/{action}/{*nodePath}&amp;quot;,
-                defaults: new { controller = &amp;quot;Home&amp;quot;, action = &amp;quot;Index&amp;quot;, &amp;lt;strong&amp;gt;nodePath = UrlParameter.Optional&amp;lt;/strong&amp;gt; }
+                name: "default",
+                url: "{controller}/{action}/{*nodePath}",
+                defaults: new { controller = "Home", action = "Index", &lt;strong&gt;nodePath = UrlParameter.Optional&lt;/strong&gt; }
 </Content>
     <DateCreated>2018-01-03T20:23:26.867</DateCreated>
     <NodeId>19</NodeId>
@@ -217,22 +217,7 @@ A couple of minor adjustments to the appearance of the NodeDisplay view complete
   </ContentTransfer>
   <ContentTransfer>
     <Content>&amp;lt;strong&amp;gt;Project Scope&amp;lt;/strong&amp;gt;
-The original intent for this project was to port my existing personal website to the .Net platform. The engine for that website is a general purpose content management system, written in PHP, with the content organized as nodes in a tree structure. The application is a research project. The content tree has two branches, Blog and Book, with the blog being a record of my activities in the writing of the book.
-
-It soon became apparent that the goal of porting the entire website in one go was unrealistic. I had thought that the effort to learn ASP.Net would be comparable to the effort to learn the PHP language in the Apache environment. Not so.
-
-The scope of this project is therefore rather narrow. The core feature--content organized as nodes in a tree structure--has been ported. The user is given the ability to create and edit blog entries, and no more.
-
-&amp;lt;strong&amp;gt;Project Structure&amp;lt;/strong&amp;gt;
-Code for this project has been developed using Visual Studio 2015, and is contained in the WebContent solution. There are two projects in the solution: WebContent.Manage handles access to the data store, and WebContent.UI presents content to the user.
-
-In the .Manage project, duties are divided between the content manager and the content repository. These duties are defined in the IContentManager and IContentRepository interfaces. The content manager faces outward to the UI project, and inward to the content repository.
-
-&amp;lt;strong&amp;gt;Development Tools&amp;lt;/strong&amp;gt;
-In this first iteration, I&amp;#39;ve concentrated on learning the core ASP.Net tools exclusively. To encourage a deeper understanding of the tools, empty projects were created in Visual Studio and the tools were installed manually.
-
-&amp;lt;em&amp;gt;MVC&amp;lt;/em&amp;gt;
-I chose to start with MVC, rather than WebForms, because it is more widely used.
+&amp;lt;p&amp;gt;The original intent for this project was to port my existing personal website to the .Net platform. The engine for that website is a general purpose content management system, written in PHP, with the content organized as nodes in a tree structure. The application is a research project. The content tree has two branches, Blog and Book, with the blog being a record of my activities in the writing of the book.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;It soon became apparent that the goal of porting the entire website in one go was unrealistic. I had thought that the effort to learn ASP.Net would be comparable to the effort to learn the PHP language in the Apache environment. Not so.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The scope of this project is therefore rather narrow. The core feature--content organized as nodes in a tree structure--has been ported. The user is given the ability to create and edit blog entries, and no more.&amp;lt;/p&amp;gt;&amp;lt;strong&amp;gt;Project Structure&amp;lt;/strong&amp;gt;&amp;lt;p&amp;gt;Code for this project has been developed using Visual Studio 2015, and is contained in the WebContent solution. There are two projects in the solution: WebContent.Manage handles access to the data store, and WebContent.UI presents content to the user.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;In the .Manage project, duties are divided between the content manager and the content repository. These duties are defined in the IContentManager and IContentRepository interfaces. The content manager faces outward to the UI project, and inward to the content repository.&amp;lt;/p&amp;gt;&amp;lt;strong&amp;gt;Development Tools&amp;lt;/strong&amp;gt;&amp;lt;p&amp;gt;In this first iteration, I&amp;#39;ve concentrated on learning the core ASP.Net tools exclusively. To encourage a deeper understanding of the tools, empty projects were created in Visual Studio and the tools were installed manually.&amp;lt;/p&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;em&amp;gt;MVC&amp;lt;/em&amp;gt;&amp;lt;p&amp;gt;I chose to start with MVC, rather than WebForms, because it is more widely used.&amp;lt;/p&amp;gt;
 
 &amp;lt;em&amp;gt;Router&amp;lt;/em&amp;gt;
 Both conventional and attribute routing have been implemented. In this release, attribute routing is enabled. To change the routing method, see RouteConfig.cs.
@@ -243,9 +228,9 @@ Dependency injection is managed by the Unity container, and facilitated by the I
 There is one implementation of IContentManager, the ContentManager class.
 
 There are three implementations of IContentRepository, in these classes:
-&amp;amp;nbsp;&amp;amp;nbsp;ContentRepositorySql:  Access SQL Server database via SqlConnection objects and SQL statements.
-&amp;amp;nbsp;&amp;amp;nbsp;ContentRepositoryLinqToEF: Access SQL Server database via LINQ queries and Entity Framework.
-&amp;amp;nbsp;&amp;amp;nbsp;ContentRepositoryLinqToFile: LINQ queries access a memory-resident list, backed by a file.
+&amp;#160;&amp;#160;ContentRepositorySql:  Access SQL Server database via SqlConnection objects and SQL statements.
+&amp;#160;&amp;#160;ContentRepositoryLinqToEF: Access SQL Server database via LINQ queries and Entity Framework.
+&amp;#160;&amp;#160;ContentRepositoryLinqToFile: LINQ queries access a memory-resident list, backed by a file.
 
 The container may be configured for a single instance of each class, or multiple instances. See UnityConfig.cs for more information.
 
@@ -262,8 +247,8 @@ The Bootstrap framework was selected because it is popular and because its grid 
 
 &amp;lt;em&amp;gt;CSS&amp;lt;/em&amp;gt;
 A minimal amount of styling has been added.
-&amp;amp;nbsp;&amp;amp;nbsp;Color of link text is set in site.css.
-&amp;amp;nbsp;&amp;amp;nbsp;Font size for path links is set in node.css.
+&amp;#160;&amp;#160;Color of link text is set in site.css.
+&amp;#160;&amp;#160;Font size for path links is set in node.css.
 
 &amp;lt;em&amp;gt;Bundles&amp;lt;/em&amp;gt;
 Bundles are registered at startup, because this seems to be the norm. Some argue that it is better to add the links to the view file by hand, so that the style skin can be changed without recompiling.
