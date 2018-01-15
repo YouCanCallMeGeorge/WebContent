@@ -1,9 +1,7 @@
 <?xml version="1.0"?>
 <ArrayOfContentTransfer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <ContentTransfer>
-    <Content>Fourteen days after starting this project, and after a reboot of the database configuration, I&amp;#39;m writing the first blog entry that will stick. &amp;lt;em&amp;gt;[In reality, I&amp;#39;m editing that stubby first entry on January 12, 2018.]&amp;lt;/em&amp;gt;
-
-This &amp;lt;a href=&amp;quot;https://www.amazon.com/gp/product/1430265299/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;amp;psc=1&amp;quot;&amp;gt;book&amp;lt;/a&amp;gt; on MVC 5 by Adam Freeman was a big help in getting me started, along with perhaps 150 documents found on the Internet.</Content>
+    <Content>&lt;p&gt;Fourteen days after starting this project, and after a reboot of the database configuration, I'm writing the first blog entry that will stick. &lt;em&gt;[In reality, I'm editing that stubby first entry on January 12, 2018.]&lt;/em&gt;&lt;/p&gt;&lt;p&gt;This &lt;a href="https://www.amazon.com/gp/product/1430265299/ref=oh_aui_detailpage_o02_s00?ie=UTF8&amp;psc=1"&gt;book&lt;/a&gt; on MVC 5 by Adam Freeman was a big help in getting me started, along with perhaps 150 documents found on the Internet.&lt;/p&gt;</Content>
     <DateCreated>2017-12-27T18:05:50</DateCreated>
     <NodeId>3</NodeId>
     <ParentId>7</ParentId>
@@ -12,8 +10,7 @@ This &amp;lt;a href=&amp;quot;https://www.amazon.com/gp/product/1430265299/ref=o
     <Title>First Blog Entry</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>This is the &amp;lt;del&amp;gt;first&amp;lt;/del&amp;gt; second blog entry after the restart of the project. One entry had been made a few days ago; it was lost when the database was discarded.
-&amp;lt;em&amp;gt;[I thought this was the first entry because the program reported an error at save. The next day, I saw that the entry had been added to the database. 12-Jan-2018]&amp;lt;/em&amp;gt;</Content>
+    <Content>&lt;p&gt;This is the &lt;del&gt;first&lt;/del&gt; second blog entry after the restart of the project. One entry had been made a few days ago; it was lost when the database was discarded.&lt;/p&gt;&lt;p&gt;&lt;em&gt;[I thought this was the first entry because the program reported an error at save. The next day, I saw that the entry had been added to the database. 12-Jan-2018]&lt;/em&gt;&lt;/p&gt;</Content>
     <DateCreated>2017-12-28T08:03:35</DateCreated>
     <NodeId>4</NodeId>
     <ParentId>7</ParentId>
@@ -49,9 +46,7 @@ This &amp;lt;a href=&amp;quot;https://www.amazon.com/gp/product/1430265299/ref=o
     <Title>December</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>Today I implemented the Unity dependency injection package. The ContentRepository and ContentManager classes are now delivered to the classes that depend on them. Injection is via the object constructor.
-
-This &amp;lt;a href=&amp;quot;https://www.accusoft.com/blog/dependency-injection-going-start-finish-unity-c/&amp;quot;&amp;gt;article&amp;lt;/a&amp;gt; was helpful in making the decision to go with Unity instead on Ninject (as Freeman did in his book), and with the implementation.</Content>
+    <Content>&lt;p&gt;Today I implemented the Unity dependency injection package. The ContentRepository and ContentManager classes are now delivered to the classes that depend on them. Injection is via the object constructor.&lt;/p&gt;&lt;p&gt;This &lt;a href="https://www.accusoft.com/blog/dependency-injection-going-start-finish-unity-c/"&gt;article&lt;/a&gt; was helpful in making the decision to go with Unity instead on Ninject (as Freeman did in his book), and with the implementation.&lt;/p&gt;</Content>
     <DateCreated>2017-12-28T08:29:22</DateCreated>
     <NodeId>8</NodeId>
     <ParentId>7</ParentId>
@@ -87,11 +82,7 @@ This &amp;lt;a href=&amp;quot;https://www.accusoft.com/blog/dependency-injection
     <Title>January</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>Access to the SQL Server database is now via LINQ to Entities. The LINQ method syntax is readable and compact, mostly. The one exception so far has been the left outer join. The documentation for left outer join using method syntax was so obscure that I decided not to invest the hours required to crack the code. Judging by the comments on Stack Overflow, most programmers feel the same way.
-
-I was able to get the job done using query syntax, with help from the Microsoft Docs and Stack Overflow.
-
-That is the good news. The bad news is that the [AllowHtml] attribute on the Content field is *not* working.</Content>
+    <Content>&lt;p&gt;Access to the SQL Server database is now via LINQ to Entities. The LINQ method syntax is readable and compact, mostly. The one exception so far has been the left outer join. The documentation for left outer join using method syntax was so obscure that I decided not to invest the hours required to crack the code. Judging by the comments on Stack Overflow, most programmers feel the same way.&lt;/p&gt;&lt;p&gt;I was able to get the job done using query syntax, with help from the Microsoft Docs and Stack Overflow.&lt;/p&gt;&lt;p&gt;That is the good news. The bad news is that the [AllowHtml] attribute on the Content field is *not* working.&lt;/p&gt;</Content>
     <DateCreated>2018-01-01T11:38:51.447</DateCreated>
     <NodeId>17</NodeId>
     <ParentId>15</ParentId>
@@ -100,20 +91,7 @@ That is the good news. The bad news is that the [AllowHtml] attribute on the Con
     <Title>Now Using LINQ and Entity Framework</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>Yesterday I saw that HTML tags in blog content were not honored. The tags themselves were displayed, instead of the effect of the tags.
-
-On the ASP.Net forum, MVC section, I found the solution: Use Html.Raw.
-
-The following &amp;lt;em&amp;gt;simple&amp;lt;/em&amp;gt; adjustment works &amp;lt;strong&amp;gt;very&amp;lt;/strong&amp;gt; well:
-
-@Model.Title
-
-becomes
-            
-@Html.Raw(Model.Content)
-
-In that same post I saw the solution to the problem of no paragraph separation (which  I did not mention yesterday): &amp;lt;strong&amp;gt;Replace&amp;lt;/strong&amp;gt; ASCII &amp;lt;strong&amp;gt;newline&amp;lt;/strong&amp;gt; and &amp;lt;strong&amp;gt;carriage return&amp;lt;/strong&amp;gt; characters with the &amp;lt;strong&amp;gt;br&amp;lt;/strong&amp;gt; tag.
-</Content>
+    <Content>&lt;p&gt;Yesterday I saw that HTML tags in blog content were not honored. The tags themselves were displayed, instead of the effect of the tags.&lt;/p&gt;&lt;p&gt;On the ASP.Net forum, MVC section, I found the solution: Use Html.Raw.&lt;/p&gt;&lt;p&gt;The following &lt;em&gt;simple&lt;/em&gt; adjustment works &lt;strong&gt;very&lt;/strong&gt; well:&lt;/p&gt;&lt;p&gt;@Model.Title&lt;/p&gt;&lt;p&gt;becomes&lt;/p&gt;&lt;p&gt;@Html.Raw(Model.Content)&lt;/p&gt;</Content>
     <DateCreated>2018-01-02T17:46:11.433</DateCreated>
     <NodeId>18</NodeId>
     <ParentId>15</ParentId>
@@ -122,26 +100,7 @@ In that same post I saw the solution to the problem of no paragraph separation (
     <Title>HTML Markup In Blog Content Is Honored</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>This evening I cleaned up error handling throughout the solution.
-
-Handling exceptions:
-Exceptions are ultimately handled in the Home and Node controllers, in the overridden &lt;strong&gt;OnException&lt;/strong&gt; method.
-In the Error view, I added a link to an absolute URL to the node's Index action.
-
-Handling content not found:
-All methods in the &lt;strong&gt;IContentManager&lt;/strong&gt; interface now return &lt;strong&gt;null&lt;/strong&gt; when the requested content is not found. In these cases, the normal view is presented, with a message that the content was not found.
-
-&lt;strong&gt;Quirk:&lt;/strong&gt;
-I found that specifying &lt;strong&gt;UrlParameter.Optional&lt;/strong&gt; for the final parameter in the call to &lt;strong&gt;MapRoute&lt;/strong&gt; had an unexpected side effect in the Node controller. When the Node controller calls &lt;strong&gt;RedirectAction(&lt;em&gt;url&lt;/em&gt;)&lt;/strong&gt;, a slash is appended to the url.
-
-The &lt;em&gt;url&lt;/em&gt; is the path to a blog entry, so the trailing slash caused an error when retrieval of the entry was attempted. I worked around this by having ContentManager remove any trailing slash from the node path, prior to querying the database. 
-
-This is the definition of the route:
-
-            routes.MapRoute(
-                name: "default",
-                url: "{controller}/{action}/{*nodePath}",
-                defaults: new { controller = "Home", action = "Index", &lt;strong&gt;nodePath = UrlParameter.Optional&lt;/strong&gt; }
+    <Content>&lt;p&gt;This evening I cleaned up error handling throughout the solution.&lt;/p&gt;&lt;p&gt;Handling exceptions:&lt;/p&gt;&lt;p&gt;Exceptions are ultimately handled in the Home and Node controllers, in the overridden &lt;strong&gt;OnException&lt;/strong&gt; method.&lt;/p&gt;&lt;p&gt;In the Error view, I added a link to an absolute URL to the node's Index action.&lt;/p&gt;&lt;p&gt;Handling content not found:&lt;/p&gt;&lt;p&gt;All methods in the &lt;strong&gt;IContentManager&lt;/strong&gt; interface now return &lt;strong&gt;null&lt;/strong&gt; when the requested content is not found. In these cases, the normal view is presented, with a message that the content was not found.&lt;/p&gt;&lt;p&gt;&lt;strong&gt;Quirk:&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;I found that specifying &lt;strong&gt;UrlParameter.Optional&lt;/strong&gt; for the final parameter in the call to &lt;strong&gt;MapRoute&lt;/strong&gt; had an unexpected side effect in the Node controller. When the Node controller calls &lt;strong&gt;RedirectAction(&lt;em&gt;url&lt;/em&gt;)&lt;/strong&gt;, a slash is appended to the url.&lt;/p&gt;&lt;p&gt;The &lt;em&gt;url&lt;/em&gt; is the path to a blog entry, so the trailing slash caused an error when retrieval of the entry was attempted. I worked around this by having ContentManager remove any trailing slash from the node path, prior to querying the database.&lt;/p&gt;&lt;p&gt;This is the definition of the route:&lt;/p&gt;&lt;p&gt;routes.MapRoute(&lt;br/&gt;                name: "default",&lt;br/&gt;                url: "{controller}/{action}/{*nodePath}",&lt;br/&gt;                defaults: new { controller = "Home", action = "Index",&lt;br/&gt;&lt;strong&gt;nodePath = UrlParameter.Optional&lt;/strong&gt; }&lt;/p&gt;
 </Content>
     <DateCreated>2018-01-03T20:23:26.867</DateCreated>
     <NodeId>19</NodeId>
@@ -151,13 +110,7 @@ This is the definition of the route:
     <Title>Cleaned Up Error Handling</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>Created a new repository class that operates on a memory resident list, backed by a file on disc.
-
-A generic list, List[ContentNode], holds the data in memory.
-
-The XmlSerializer class is used to move the data in and out of the file.
-
-Operations are executed with the same Linq query trees as in the Linq to Entities repository class.</Content>
+    <Content>&lt;p&gt;Created a new repository class that operates on a memory resident list, backed by a file on disc.&lt;/p&gt;&lt;p&gt;A generic list, List[ContentNode], holds the data in memory.&lt;/p&gt;&lt;p&gt;The XmlSerializer class is used to move the data in and out of the file.&lt;/p&gt;&lt;p&gt;Operations are executed with the same Linq query trees as in the Linq to Entities repository class.&lt;/p&gt;</Content>
     <DateCreated>2018-01-05T19:58:44.913</DateCreated>
     <NodeId>20</NodeId>
     <ParentId>15</ParentId>
@@ -176,9 +129,7 @@ Operations are executed with the same Linq query trees as in the Linq to Entitie
     <Title>Singleton or Multiple Instances of Injected Dependency</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>When a leaf node is displayed, links to sibling nodes are displayed, in lieu of links to child nodes. For a blog entry, this has the effect of showing links to all entries in the same month.
-
-Also added a small amount of CSS styling. Link color is a golden tan, rather than the bootstrap blue, and text size for path links is 125%.
+    <Content>&lt;p&gt;When a leaf node is displayed, links to sibling nodes are displayed, in lieu of links to child nodes. For a blog entry, this has the effect of showing links to all entries in the same month.&lt;/p&gt;&lt;p&gt;Also added a small amount of CSS styling. Link color is a golden tan, rather than the bootstrap blue, and text size for path links is 125%.&lt;/p&gt;
 </Content>
     <DateCreated>2018-01-10T22:01:52.29</DateCreated>
     <NodeId>22</NodeId>
@@ -197,17 +148,7 @@ Also added a small amount of CSS styling. Link color is a golden tan, rather tha
     <Title>Final Cleanup Prior to Code Review</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>Convention-based routing is out. The much cleaner attribute routing is in.
-
-I have not been happy with the somewhat obscure syntax of the convention-based routing system, even in this simple application. I looked ahead with trepidation to more complex applications.
-
-Early in the project, I had seen an article about attribute routing. I did not understand it at the time, and forgot about it. Tonight, while looking for a programmer&amp;#39;s guide to routing, I happened on &amp;lt;a href=&amp;quot;https://blogs.msdn.microsoft.com/webdev/2013/10/17/attribute-routing-in-asp-net-mvc-5/&amp;quot;&amp;gt;this article&amp;lt;/a&amp;gt; in MSDN about attribute routing.
-
-This far along in the project, I am comfortable with the use of attributes in my code, and found the syntax easy to read. So I decided to implement attribute routing prior to release for code review.
-
-Tonight I also discovered and fixed an error in the handling of a cancelled new blog entry. A test package would have caught that error on purpose, instead of by chance after the decision had been made to release the code for review. Now that I know my way around the basic structure of the ASP.Net world, it makes sense to add testing to the mix in the next stage of the project.
-
-A couple of minor adjustments to the appearance of the NodeDisplay view completed the evening&amp;#39;s work.</Content>
+    <Content>&lt;p&gt;Convention-based routing is out. The much cleaner attribute routing is in.&lt;/p&gt;&lt;p&gt;I have not been happy with the somewhat obscure syntax of the convention-based routing system, even in this simple application. I looked ahead with trepidation to more complex applications.&lt;/p&gt;&lt;p&gt;Early in the project, I had seen an article about attribute routing. I did not understand it at the time, and forgot about it. Tonight, while looking for a programmer's guide to routing, I happened on &lt;a href="https://blogs.msdn.microsoft.com/webdev/2013/10/17/attribute-routing-in-asp-net-mvc-5/"&gt;this article&lt;/a&gt; in MSDN about attribute routing.&lt;/p&gt;&lt;p&gt;This far along in the project, I am comfortable with the use of attributes in my code, and found the syntax easy to read. So I decided to implement attribute routing prior to release for code review.&lt;/p&gt;&lt;p&gt;Tonight I also discovered and fixed an error in the handling of a cancelled new blog entry. A test package would have caught that error on purpose, instead of by chance after the decision had been made to release the code for review. Now that I know my way around the basic structure of the ASP.Net world, it makes sense to add testing to the mix in the next stage of the project.&lt;/p&gt;&lt;p&gt;A couple of minor adjustments to the appearance of the NodeDisplay view completed the evening's work.&lt;/p&gt;</Content>
     <DateCreated>2018-01-12T19:44:11.817</DateCreated>
     <NodeId>24</NodeId>
     <ParentId>15</ParentId>
@@ -216,42 +157,7 @@ A couple of minor adjustments to the appearance of the NodeDisplay view complete
     <Title>Switch To Attribute Routing</Title>
   </ContentTransfer>
   <ContentTransfer>
-    <Content>&amp;lt;strong&amp;gt;Project Scope&amp;lt;/strong&amp;gt;
-&amp;lt;p&amp;gt;The original intent for this project was to port my existing personal website to the .Net platform. The engine for that website is a general purpose content management system, written in PHP, with the content organized as nodes in a tree structure. The application is a research project. The content tree has two branches, Blog and Book, with the blog being a record of my activities in the writing of the book.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;It soon became apparent that the goal of porting the entire website in one go was unrealistic. I had thought that the effort to learn ASP.Net would be comparable to the effort to learn the PHP language in the Apache environment. Not so.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The scope of this project is therefore rather narrow. The core feature--content organized as nodes in a tree structure--has been ported. The user is given the ability to create and edit blog entries, and no more.&amp;lt;/p&amp;gt;&amp;lt;strong&amp;gt;Project Structure&amp;lt;/strong&amp;gt;&amp;lt;p&amp;gt;Code for this project has been developed using Visual Studio 2015, and is contained in the WebContent solution. There are two projects in the solution: WebContent.Manage handles access to the data store, and WebContent.UI presents content to the user.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;In the .Manage project, duties are divided between the content manager and the content repository. These duties are defined in the IContentManager and IContentRepository interfaces. The content manager faces outward to the UI project, and inward to the content repository.&amp;lt;/p&amp;gt;&amp;lt;strong&amp;gt;Development Tools&amp;lt;/strong&amp;gt;&amp;lt;p&amp;gt;In this first iteration, I&amp;#39;ve concentrated on learning the core ASP.Net tools exclusively. To encourage a deeper understanding of the tools, empty projects were created in Visual Studio and the tools were installed manually.&amp;lt;/p&amp;gt;&amp;lt;br/&amp;gt;&amp;lt;em&amp;gt;MVC&amp;lt;/em&amp;gt;&amp;lt;p&amp;gt;I chose to start with MVC, rather than WebForms, because it is more widely used.&amp;lt;/p&amp;gt;
-
-&amp;lt;em&amp;gt;Router&amp;lt;/em&amp;gt;
-Both conventional and attribute routing have been implemented. In this release, attribute routing is enabled. To change the routing method, see RouteConfig.cs.
-
-&amp;lt;em&amp;gt;Dependency Injection&amp;lt;/em&amp;gt;
-Dependency injection is managed by the Unity container, and facilitated by the IContentManager and IContentRepository interfaces.
-
-There is one implementation of IContentManager, the ContentManager class.
-
-There are three implementations of IContentRepository, in these classes:
-&amp;#160;&amp;#160;ContentRepositorySql:  Access SQL Server database via SqlConnection objects and SQL statements.
-&amp;#160;&amp;#160;ContentRepositoryLinqToEF: Access SQL Server database via LINQ queries and Entity Framework.
-&amp;#160;&amp;#160;ContentRepositoryLinqToFile: LINQ queries access a memory-resident list, backed by a file.
-
-The container may be configured for a single instance of each class, or multiple instances. See UnityConfig.cs for more information.
-
-The default lazy loader was kept in place. The database is so simple that loading mode is not an issue.
-
-&amp;lt;em&amp;gt;LINQ&amp;lt;/em&amp;gt;
-As noted above, LINQ to Entities and LINQ to objects have both been used to access content. Most of the query expressions are straightforward. The query that returns a set of childless nodes was more challenging, as it requires a self-referencing outer left join, and selection of the rows that are null on the right side. The query is in method NodeTypeMostRecentNLeavesGet, in ContentRepositoryLinqToEF.cs.
-
-&amp;lt;em&amp;gt;Entity Framework&amp;lt;/em&amp;gt;
-The Entity Data Model Wizard was used to generate the classes that interface with the database. There are only two classes in the data model, because there is only one table in the database. Consequently, my knowledge of Entity Framework is rather superficial at this point.
-
-&amp;lt;em&amp;gt;Bootstrap&amp;lt;/em&amp;gt;
-The Bootstrap framework was selected because it is popular and because its grid system simplifies specification of page layout.
-
-&amp;lt;em&amp;gt;CSS&amp;lt;/em&amp;gt;
-A minimal amount of styling has been added.
-&amp;#160;&amp;#160;Color of link text is set in site.css.
-&amp;#160;&amp;#160;Font size for path links is set in node.css.
-
-&amp;lt;em&amp;gt;Bundles&amp;lt;/em&amp;gt;
-Bundles are registered at startup, because this seems to be the norm. Some argue that it is better to add the links to the view file by hand, so that the style skin can be changed without recompiling.
+    <Content>&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Project Scope&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The original intent for this project was to port my existing personal website to the .Net platform. The engine for that website is a general purpose content management system, written in PHP, with the content organized as nodes in a tree structure. The application is a research project. The content tree has two branches, Blog and Book, with the blog being a record of my activities in the writing of the book.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;It soon became apparent that the goal of porting the entire website in one go was unrealistic. I had thought that the effort to learn ASP.Net would be comparable to the effort to learn the PHP language in the Apache environment. Not so.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The scope of this project is therefore rather narrow. The core feature--content organized as nodes in a tree structure--has been ported. The user is given the ability to create and edit blog entries, and no more.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Project Structure&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Code for this project has been developed using Visual Studio 2015, and is contained in the WebContent solution. There are two projects in the solution: WebContent.Manage handles access to the data store, and WebContent.UI presents content to the user.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;In the .Manage project, duties are divided between the content manager and the content repository. These duties are defined in the IContentManager and IContentRepository interfaces. The content manager faces outward to the UI project, and inward to the content repository.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;strong&amp;gt;Development Tools&amp;lt;/strong&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;In this first iteration, I&amp;#39;ve concentrated on learning the core ASP.Net tools exclusively. To encourage a deeper understanding of the tools, empty projects were created in Visual Studio and the tools were installed manually.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;MVC&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;I chose to start with MVC, rather than WebForms, because it is more widely used.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Router&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Both conventional and attribute routing have been implemented. In this release, attribute routing is enabled. To change the routing method, see RouteConfig.cs.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Dependency Injection&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Dependency injection is managed by the Unity container, and facilitated by the IContentManager and IContentRepository interfaces.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;There is one implementation of IContentManager, the ContentManager class.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;There are three implementations of IContentRepository, in these classes:&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;ContentRepositorySql:  Access SQL Server database via SqlConnection objects and SQL statements.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;ContentRepositoryLinqToEF: Access SQL Server database via LINQ queries and Entity Framework.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;ContentRepositoryLinqToFile: LINQ queries access a memory-resident list, backed by a file.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The container may be configured for a single instance of each class, or multiple instances. See UnityConfig.cs for more information.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The default lazy loader was kept in place. The database is so simple that loading mode is not an issue.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;LINQ&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;As noted above, LINQ to Entities and LINQ to objects have both been used to access content. Most of the query expressions are straightforward. The query that returns a set of childless nodes was more challenging, as it requires a self-referencing outer left join, and selection of the rows that are null on the right side. The query is in method NodeTypeMostRecentNLeavesGet, in ContentRepositoryLinqToEF.cs.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Entity Framework&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The Entity Data Model Wizard was used to generate the classes that interface with the database. There are only two classes in the data model, because there is only one table in the database. Consequently, my knowledge of Entity Framework is rather superficial at this point.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Bootstrap&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;The Bootstrap framework was selected because it is popular and because its grid system simplifies specification of page layout.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;CSS&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;A minimal amount of styling has been added.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Color of link text is set in site.css.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Font size for path links is set in node.css.&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;&amp;lt;em&amp;gt;Bundles&amp;lt;/em&amp;gt;&amp;lt;/p&amp;gt;&amp;lt;p&amp;gt;Bundles are registered at startup, because this seems to be the norm. Some argue that it is better to add the links to the view file by hand, so that the style skin can be changed without recompiling.&amp;lt;/p&amp;gt;
 </Content>
     <DateCreated>2018-01-13T16:18:18.813</DateCreated>
     <NodeId>25</NodeId>
